@@ -9,6 +9,7 @@ package nganhangoop;
  * @author add
  */
 public class Student {
+    // Xin chao tat ca cac ban
     private String name;
     private int id;
     private String nganhHoc;
