@@ -11,10 +11,11 @@ package nganhangoop;
 public class Student {
     private String name;
     private int id;
-
+    private String nganhHoc;
     public Student(String name, int id) {
         this.name = name;
         this.id = id;
+        this.nganhHoc = nganhHoc;
     }
 
     /**
@@ -43,6 +44,20 @@ public class Student {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * @return the nganhHoc
+     */
+    public String getNganhHoc() {
+        return nganhHoc;
+    }
+
+    /**
+     * @param nganhHoc the nganhHoc to set
+     */
+    public void setNganhHoc(String nganhHoc) {
+        this.nganhHoc = nganhHoc;
     }
     
 }
