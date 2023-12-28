@@ -17,11 +17,12 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     private String gioiTinh;
     private String soCCCD;
     private LocalDate ngaySinh;
-    private long soTienGui = 0;
+    private double soTienGui = 0;
     private int matKhau;
-    private String maTaiKhoang;
+    private LocalDate ngayDangKy = LocalDate.now();
+    private String soTaiKhoang;
     {
-        this.maTaiKhoang = String.format("%d %d", this.ngaySinh, (int)(Math.random()*(9999-1000+1)+1000));
+        this.soTaiKhoang = String.format("%d %d", this.ngaySinh, (int)(Math.random()*(9999-1000+1)+1000));
     }
     public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau) {
         this.hoTen = hoTen;
@@ -107,14 +108,14 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     /**
      * @return the soTienGui
      */
-    public long getSoTienGui() {
+    public double getSoTienGui() {
         return soTienGui;
     }
 
     /**
      * @param soTienGui the soTienGui to set
      */
-    public void setSoTienGui(long soTienGui) {
+    public void setSoTienGui(double soTienGui) {
         this.soTienGui = soTienGui;
     }
 
@@ -130,6 +131,20 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
      */
     public void setMatKhau(int matKhau) {
         this.matKhau = matKhau;
+    }
+    
+    /**
+     * @return the ngayDangKy
+     */
+    public LocalDate getNgayDangKy() {
+        return LocalDate.now();
+    }
+
+    /**
+     * @param ngayDangKy the ngayDangKy to set
+     */
+    public void setNgayDangKy(LocalDate ngayDangKy) {
+        this.ngayDangKy = ngayDangKy;
     }
     
     @Override
@@ -163,5 +178,13 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         this.matKhau = (int)(Math.random()*(999999-100000+1)+100000);
         return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
     }
+
+    @Override
+    public void hienThi() {
+        System.out.printf("+ Họ tên: %s\n + Ngày sinh: %s\n + Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
+                this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern("dd//MM/yyyy")), this.gioiTinh, this.queQuan, 
+                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),this.soTaiKhoang, this.soTienGui);
+    }
+
     
 }

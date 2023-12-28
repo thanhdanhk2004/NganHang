@@ -13,15 +13,13 @@ import java.time.LocalDate;
 public abstract class KyHan {
     private int ngay;
     private double laiSuat;
-
-    public KyHan(int ngay, double laiSuat) {
+    private double soTien;
+    public KyHan(int ngay, double laiSuat, double soTien) {
         this.ngay = ngay;
         this.laiSuat = laiSuat;
+        this.soTien = soTien;
     }
     
-    public abstract long tinhTienLai();
-    public abstract LocalDate tinhNgayDaoHan();
-
     /**
      * @return the ngay
      */
@@ -49,4 +47,21 @@ public abstract class KyHan {
     public void setLaiSuat(double laiSuat) {
         this.laiSuat = laiSuat;
     }
+    /**
+     * @return the soTien
+     */
+     public double getSoTien() {
+        return soTien;
+    }
+
+    /**
+     * @param soTien the soTien to set
+     */
+    public void setSoTien(double soTien) {
+        this.soTien = soTien;
+    }
+    
+    public abstract double tinhTienLai();
+    public abstract LocalDate tinhNgayDaoHan(LocalDate d);
+    public abstract void hienThiThongTinKyHan();
 }
