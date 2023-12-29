@@ -4,6 +4,9 @@
  */
 package nganhang;
 
+import com.nhom.baitaplon.CauHinh;
+import com.nhom.baitaplon.QuanLyTaiKhoan;
+
 /**
  *
  * @author add
@@ -24,11 +27,39 @@ public class NganHang {
                          "11) Thoát chương trình.\n"+
                          "======== MỜI BẠN LỰA CHỌN =========\n");
     }
+    public static void khoangTrang(){
+        for(int i=0;i<3;i++){
+            System.out.println();
+        }
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        menu();
+        QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
+        int choose;
+        boolean check = false;
+        do{
+            menu();
+            
+            do{
+                System.out.print("- Nhập vào lựa chọn của bạn:");
+                choose = CauHinh.input.nextInt();
+                if(choose < 1 || choose > 11)
+                    System.out.print("+ Nhập không hợp lệ! Mời nhập lại.\n");
+            }while(choose < 1||choose > 11);
+            CauHinh.input.nextLine();
+            if(choose == 1){
+                System.out.print("+ Nhập vào số cccd của bạn:");
+                String soCCCD = CauHinh.input.nextLine();
+                qltk.moTaiKhoan(soCCCD);
+                check = true;
+            }
+            CauHinh.input.nextLine();
+            System.out.print("\n* Nhấn Enter để tiếp tục.\n");
+            CauHinh.input.nextLine();
+            khoangTrang();
+        }while(choose > 0 && choose < 11);
     }
     
 }
