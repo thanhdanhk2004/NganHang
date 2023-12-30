@@ -11,4 +11,6 @@ package com.nhom.baitaplon;
 public interface TaiKhoan {
     public abstract TaiKhoan moTaiKhoan();
     public abstract void hienThi();
+    public abstract void doiMatKhau();
+    public abstract void ghiThongTinVaoFile();
 }

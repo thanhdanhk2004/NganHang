@@ -4,8 +4,14 @@
  */
 package com.nhom.baitaplon;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -151,7 +157,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         this.hoTen = CauHinh.input.nextLine();
         System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
         String ngaySinh = CauHinh.input.nextLine();
-        this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT));
         System.out.print("+ Nhập số căn cước công dân:");
         this.soCCCD = CauHinh.input.nextLine();
         System.out.print("+ Nhập vào quê quán: ");
@@ -183,8 +189,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     @Override
     public void hienThi() {
         System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
-                this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern("dd//MM/yyyy")), this.gioiTinh, this.queQuan, 
-                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), this.getSoTaiKhoang(), this.soTienGui);
+                this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.gioiTinh, this.queQuan, 
+                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.getSoTaiKhoang(), this.soTienGui);
     }
 
     /**
@@ -193,6 +199,52 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     public String getSoTaiKhoang() {
         return soTaiKhoang;
     }
+    public boolean kiemTraMatKhau(String s){
+        if(s.length() != 6)
+            return false;
+        for(int i =0;i<s.length();i++){
+            if(s.charAt(i) > '9' || s.charAt(i) < '0')
+                return false;
+        }
+        return true;
+    }
+    @Override
+    public void doiMatKhau(){
+        String s1,s2;
+            do{
+                System.out.print("* Nhập vào mật khẩu mới(Sáu số): ");
+                s1 = CauHinh.input.nextLine();
+                if(kiemTraMatKhau(s1)==false)
+                    System.out.print("+ Lưu ý mật khẩu chỉ là số.\n");
+            }while(kiemTraMatKhau(s1)==false);
+            do{
+                System.out.print("* Nhập lại mật khẩu mới(Sáu số):");
+                s2 = CauHinh.input.nextLine();
+                if(s1.equals(s2) == false)
+                    System.out.print("+ Không trùng khớp! Mời nhâp lại.\n");
+            }while(s1.equals(s2) == false);
+            this.matKhau = Integer.parseInt(s1);  
+            System.out.print("- ĐỔI MẬT KHẨU THÀNH CÔNG.\n");
+    }
 
-    
+    @Override
+    public void ghiThongTinVaoFile() {
+        FileWriter fileWriter = null;
+        try{
+            fileWriter = new FileWriter(CauHinh.file, true);
+            try(PrintWriter xuatFile = new PrintWriter(fileWriter)){
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.hoTen, this.soCCCD,
+                        this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.soTaiKhoang, this.matKhau, this.soTienGui);
+            }        } catch (IOException ex){
+            Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException ex) {
+                Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

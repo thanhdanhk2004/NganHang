@@ -4,6 +4,11 @@
  */
 package com.nhom.baitaplon;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -11,13 +16,18 @@ import java.time.format.DateTimeFormatter;
  *
  * @author add
  */
-public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
-    private LocalDate ngayDaoHan;
+public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
+
+    private LocalDate ngayDaoHan = LocalDate.now();
     private KyHan thongTinKyHan;
     private int loaiKyHan;
+
     public TaiKhoanCoKyHan(LocalDate ngayDaoHan, int loaiKyHan) {
         this.ngayDaoHan = ngayDaoHan;
         this.loaiKyHan = loaiKyHan;
+    }
+    public TaiKhoanCoKyHan(){
+        
     }
 
     public LocalDate getNgayDaoHan() {
@@ -44,49 +54,71 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
     public void setLoaiKyHan(int loaiKyHan) {
         this.loaiKyHan = loaiKyHan;
     }
-    @Override 
-    public TaiKhoanCoKyHan moTaiKhoan(){
-        System.out.print("=== BẠN MUỐN CHỌN LOẠI KỲ HẠN NÀO ===\n"+
-                         "1) Kỳ hạn một tuần.\n"+
-                         "2) Kỳ hạn một tháng.\n"+
-                         "3) Kỳ hạn sáu tháng.\n"+
-                         "4) Kỳ hạn một năm.\n"+
-                         "=== MỜI BẠN CHỌN ===\n");
+
+    @Override
+    public TaiKhoanCoKyHan moTaiKhoan() {
+        System.out.print("=== BẠN MUỐN CHỌN LOẠI KỲ HẠN NÀO ===\n"
+                + "1) Kỳ hạn một tuần.\n"
+                + "2) Kỳ hạn một tháng.\n"
+                + "3) Kỳ hạn sáu tháng.\n"
+                + "4) Kỳ hạn một năm.\n"
+                + "=== MỜI BẠN CHỌN ===\n");
         this.loaiKyHan = CauHinh.input.nextInt();
-        try{
+        try {
             System.out.print("* Đăng ký thành công.\n");
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.print("Bạn chọn sai nên loại kỳ hạn của bạn là kỳ hạn một tuần");
             this.loaiKyHan = 1;
         }
-        if(this.loaiKyHan == 1){
-           // thongTinKyHan = (KyHanMotTuan)(thongTinKyHan);
+        if (this.loaiKyHan == 1){
+            // thongTinKyHan = (KyHanMotTuan)(thongTinKyHan);
             thongTinKyHan = new KyHanMotTuan(7, 2, this.getSoTienGui());
             this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        }
-        else if(this.loaiKyHan == 2){
+        } else if (this.loaiKyHan == 2) {
             //thongTinKyHan = (KyHanMotThang)(thongTinKyHan);
             thongTinKyHan = new KyHanMotThang(1, 5.5, this.getSoTienGui());
             this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        }
-        else if(this.loaiKyHan == 3){
-           // thongTinKyHan = (KyHanSauThang)(thongTinKyHan);
+        } else if (this.loaiKyHan == 3) {
+            // thongTinKyHan = (KyHanSauThang)(thongTinKyHan);
             thongTinKyHan = new KyHanSauThang(6, 7.5, this.getSoTienGui());
             this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        }
-        else{
+        } else {
             //thongTinKyHan = (KyHanMotNam)(thongTinKyHan);
             thongTinKyHan = new KyHanMotNam(7, 2, this.getSoTienGui());
             this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        }  
+        }
         this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
         return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
     }
 
     @Override
     public void hienThi() {
-        super.hienThi(); 
+        super.hienThi();
         thongTinKyHan.hienThiThongTinKyHan();
-        System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)));
     }
+
+    @Override
+    public void ghiThongTinVaoFile() {
+        FileWriter fileWriter = null;
+        try{
+            fileWriter = new FileWriter(CauHinh.file, true);
+            try(PrintWriter xuatFile = new PrintWriter(fileWriter)){
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.getHoTen(), this.getSoCCCD(),
+                        this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.getSoTaiKhoang(), this.getMatKhau(), this.getSoTienGui());
+            }        
+        } catch (IOException ex){
+            //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException ex) {
+                //Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
 }

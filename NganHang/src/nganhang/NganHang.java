@@ -41,7 +41,6 @@ public class NganHang {
         boolean check = false;
         do{
             menu();
-            
             do{
                 System.out.print("- Nhập vào lựa chọn của bạn:");
                 choose = CauHinh.input.nextInt();
