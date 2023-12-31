@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author add
  */
-public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
+public class TaiKhoanKhongKyHan implements TaiKhoan{
     private String hoTen;
     private String queQuan;
     private String gioiTinh;
@@ -34,7 +34,6 @@ public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
         this.soCCCD = soCCCD;
         this.ngaySinh = ngaySinh;
         this.matKhau = matKhau;
-        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), (int)(Math.random()*(9999-1000+1)+1000));
     }
     public TaiKhoanKhongKyHan(){
         
@@ -151,6 +150,20 @@ public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
         this.ngayDangKy = ngayDangKy;
     }
     
+     /**
+     * @return the soTaiKhoang
+     */
+    public String getSoTaiKhoan() {
+        return this.soTaiKhoan;
+    }
+    
+    /**
+     * @param soTaiKhoan the soTaiKhoang to set
+     */
+    public void setSoTaiKhoang(String soTaiKhoan) {
+        this.soTaiKhoan = soTaiKhoan;
+    }
+    
     @Override
     public TaiKhoanKhongKyHan moTaiKhoan() {
         System.out.print("=== HÃY NHẬP VÀO MỘT SỐ THÔNG TIN CÂN THIẾT ĐỂ MỞ TÀI KHOẢNG ===\n");
@@ -183,22 +196,17 @@ public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
             choose = 3;
         }
         this.matKhau = (int)(Math.random()*(999999-100000+1)+100000);
+        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), (int)(Math.random()*(9999-1000+1)+1000));
         return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
     }
 
     @Override
     public void hienThi() {
-        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Mật khẩu: %d\n+ Số tiền: %f\n",
+        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
                 this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.gioiTinh, this.queQuan, 
-                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.getSoTaiKhoan(), this.matKhau, this.soTienGui);
+                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.soTaiKhoan, this.soTienGui);
     }
-
-    /**
-     * @return the soTaiKhoang
-     */
-    public String getSoTaiKhoan() {
-        return this.soTaiKhoan;
-    }
+    
     public boolean kiemTraMatKhau(String s){
         if(s.length() != 6)
             return false;
@@ -247,17 +255,67 @@ public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
             }
         }
     }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    
+    public void thongTinCanSua(){
+        System.out.print("=== HÃY KIỂM TRA BẠN CÓ MUỐN SỬA BẤT KÌ THÔNG TIN NÀO KHÔNG ===\n");
+        System.out.printf("1) Họ tên.\n2) Ngày sinh.\n3) Quê quán.\n4) Giới tính.\n5) Số cccd.\n6) Thông tin đã chính xác");
     }
-
-    /**
-     * @param soTaiKhoan the soTaiKhoang to set
-     */
-    public void setSoTaiKhoang(String soTaiKhoan) {
-        this.soTaiKhoan = soTaiKhoan;
+    public void suaThongTin() {
+        int sua;
+        try{
+            do{
+                this.thongTinCanSua();
+                System.out.print("- Bạn muốn sửa thông tin số mấy:");
+                sua = CauHinh.input.nextInt();
+                CauHinh.input.nextLine();
+                switch (sua) {
+                    case 1 -> {
+                        System.out.print("+ Hãy sửa lại họ tên:");
+                        this.hoTen = CauHinh.input.nextLine();
+                    }
+                    case 2 -> {
+                        System.out.print("+ Hãy sửa lại ngày sinh:");
+                        String s = CauHinh.input.nextLine();
+                        this.ngaySinh = LocalDate.parse(s, DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT));
+                    }
+                    case 3 -> {
+                        System.out.print("+ Hãy sửa lại quê quán:");
+                        this.hoTen = CauHinh.input.nextLine();
+                    }
+                    case 4 -> {
+                        System.out.printf("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
+                        int choose;
+                        try {
+                            System.out.print("- Lựa chọn giới tính của ban:");
+                            choose = CauHinh.input.nextInt();
+                            if (choose < 1 || choose > 3) {
+                                System.out.print("+ khong hop le! Moi chon lai.\n");
+                            } else {
+                                if (choose == 1) {
+                                    this.gioiTinh = "Nam";
+                                } else if (choose == 2) {
+                                    this.gioiTinh = "Nữ";
+                                } else {
+                                    this.gioiTinh = "Khác";
+                                }
+                            }
+                        } catch (Exception ex) {
+                            System.out.print("+ Do bạn nhập sai nên chúng tôi sẽ mặc định giới tính của bạn là khác.\n");
+                            choose = 3;
+                        }
+                    }
+                    case 5 -> {
+                        System.out.print("+ Hãy sửa lại số cccd:");
+                        this.hoTen = CauHinh.input.nextLine();
+                    }
+                    default ->
+                        System.out.print("+ Thông tin của bạn đã được lưu.\n");
+                }
+            }while(sua > 0 & sua < 6);
+        }catch(Exception ex){
+            System.out.print("* Thông tin đã được lưu.\n");
+        }
     }
+    
     
 }

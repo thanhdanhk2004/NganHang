@@ -24,6 +24,6 @@ public class KyHanSauThang extends KyHan{
     }
     @Override
     public void hienThiThongTinKyHan() {
-        System.out.print("+ Loại kỳ hạn: Kỳ hạn sáu tháng.\n+ Lãi suất: 5.5%/năm.\n");
+        System.out.print("+ Loại kỳ hạn: Kỳ hạn sáu tháng.\n+ Lãi suất: 5.5%.\n");
     }
 }

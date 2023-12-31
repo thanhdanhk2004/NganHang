@@ -54,13 +54,10 @@ public class NganHang {
                 String soCCCD = CauHinh.input.nextLine();
                 if(qltk.timKiem(soCCCD) != null){
                     TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
-                    tkkkh.hienThi();
                     System.out.print("+ Bạn đã có tài khoản không kỳ hạn của ngân hàng.\n");
                     System.out.print("+ Bạn có muốn tạo tài khoản có kỳ hạn không(y/n):");
                     String luaChon = CauHinh.input.nextLine();
                     if(luaChon.equalsIgnoreCase("y")){
-                       // TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
-                        
                         qltk.moTaiKhoan(tkkkh);
                     }
                 }

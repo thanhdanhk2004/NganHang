@@ -63,6 +63,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                     + "3) Kỳ hạn sáu tháng.\n"
                     + "4) Kỳ hạn một năm.\n"
                     + "=== MỜI BẠN CHỌN ===\n");
+            System.out.print("+ Chọn một loại kỳ hạn:");
             this.loaiKyHan = CauHinh.input.nextInt();
             try {
                 System.out.print("* Đăng ký thành công.\n");
@@ -71,24 +72,19 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                 this.loaiKyHan = 1;
             }
             if (this.loaiKyHan == 1){
-                // thongTinKyHan = (KyHanMotTuan)(thongTinKyHan);
                 thongTinKyHan = new KyHanMotTuan(7, 2, this.getSoTienGui());
                 this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
             } else if (this.loaiKyHan == 2) {
-                //thongTinKyHan = (KyHanMotThang)(thongTinKyHan);
                 thongTinKyHan = new KyHanMotThang(1, 5.5, this.getSoTienGui());
                 this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
             } else if (this.loaiKyHan == 3) {
-                // thongTinKyHan = (KyHanSauThang)(thongTinKyHan);
-                thongTinKyHan = new KyHanSauThang(6, 7.5, this.getSoTienGui());
+                thongTinKyHan = new KyHanSauThang(6, 5.5, this.getSoTienGui());
                 this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
             } else {
-                //thongTinKyHan = (KyHanMotNam)(thongTinKyHan);
                 thongTinKyHan = new KyHanMotNam(7, 2, this.getSoTienGui());
                 this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
             }
-            this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-            return this;
+            return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
     }
     @Override
     public void hienThi() {
@@ -103,9 +99,10 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
         try{
             fileWriter = new FileWriter(CauHinh.file, true);
             try(PrintWriter xuatFile = new PrintWriter(fileWriter)){
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.getHoTen(), this.getSoCCCD(),
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s,Ngày đáo hạn: %s, %s, %d, %.3f\n",this.getHoTen(), this.getSoCCCD(),
                         this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
                         this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
                         this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui());
             }        
         } catch (IOException ex){
@@ -117,6 +114,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                 //Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
     
 }

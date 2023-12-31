@@ -18,4 +18,5 @@ public class CauHinh {
     public static String DATE_fORMAT = "dd/MM/yyyy";
     
     public static File file = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+   
 }

@@ -41,11 +41,11 @@ public class QuanLyTaiKhoan implements Cloneable{
     }
     public void moTaiKhoan(String s){
         TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
-        TaiKhoan tk = tkkkh.moTaiKhoan();
-        this.quanLyTaiKhoan.add(tk);
-        System.out.print("+ Mo tai khoan thanh cong.\n");
-        tk.hienThi();
+        tkkkh.moTaiKhoan();
+        this.quanLyTaiKhoan.add(tkkkh);
+        System.out.print("+ Mở tài khoản thành công.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
+        //tkkkh.suaThongTin();
         //tkkkh.ghiThongTinVaoFile();
     }
     public void moTaiKhoan(TaiKhoanKhongKyHan tkkkh){
@@ -60,22 +60,24 @@ public class QuanLyTaiKhoan implements Cloneable{
         tkckh.setNgaySinh(tkkkh.getNgaySinh());
         tkckh.setSoTienGui(0);
         tkckh.setMatKhau(tkkkh.getMatKhau());
-        TaiKhoan tk = tkckh;
-        this.quanLyTaiKhoan.add(tk);
+        this.quanLyTaiKhoan.add(tkckh);
         System.out.print("+ Mo tai khoan thanh cong.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkckh);
-        tkkkh.ghiThongTinVaoFile();
+        tkckh.ghiThongTinVaoFile();
     }
     public void hienThiThongTinTaiKhoanKhachHang(TaiKhoanKhongKyHan tkkkh){
         System.out.print("\n\t\t Thông tin của bạn như sau\n");
-        System.out.print(tkkkh.getSoTaiKhoan());
+        tkkkh.hienThi();
         System.out.printf("+ Mật khẩu: %d", tkkkh.getMatKhau());
         this.xacNhanDoiMatKhau(tkkkh);
     }
     public void xacNhanDoiMatKhau(TaiKhoanKhongKyHan tkkkh){
+        CauHinh.input.nextLine();
         System.out.print("\n+ Bạn có muốn đổi mật khẩu hay không(y/n):");
         String luaChon = CauHinh.input.nextLine();
+      
         if(luaChon.equalsIgnoreCase("y")){
+           
             tkkkh.doiMatKhau();
             return;
         }   
