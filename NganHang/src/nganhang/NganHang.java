@@ -6,6 +6,7 @@ package nganhang;
 
 import com.nhom.baitaplon.CauHinh;
 import com.nhom.baitaplon.QuanLyTaiKhoan;
+import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 
 /**
  *
@@ -35,10 +36,9 @@ public class NganHang {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
         int choose;
-        boolean check = false;
         do{
             menu();
             do{
@@ -49,10 +49,27 @@ public class NganHang {
             }while(choose < 1||choose > 11);
             CauHinh.input.nextLine();
             if(choose == 1){
+                
                 System.out.print("+ Nhập vào số cccd của bạn:");
                 String soCCCD = CauHinh.input.nextLine();
-                qltk.moTaiKhoan(soCCCD);
-                check = true;
+                if(qltk.timKiem(soCCCD) != null){
+                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
+                    tkkkh.hienThi();
+                    System.out.print("+ Bạn đã có tài khoản không kỳ hạn của ngân hàng.\n");
+                    System.out.print("+ Bạn có muốn tạo tài khoản có kỳ hạn không(y/n):");
+                    String luaChon = CauHinh.input.nextLine();
+                    if(luaChon.equalsIgnoreCase("y")){
+                       // TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
+                        
+                        qltk.moTaiKhoan(tkkkh);
+                    }
+                }
+                else
+                    qltk.moTaiKhoan(soCCCD);  
+            }
+            
+            else if(choose == 8){
+                qltk.hienThiThongTin();
             }
             CauHinh.input.nextLine();
             System.out.print("\n* Nhấn Enter để tiếp tục.\n");

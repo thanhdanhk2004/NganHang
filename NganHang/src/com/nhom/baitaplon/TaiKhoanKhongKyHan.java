@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author add
  */
-public class TaiKhoanKhongKyHan implements TaiKhoan{
+public class TaiKhoanKhongKyHan implements TaiKhoan, Cloneable{
     private String hoTen;
     private String queQuan;
     private String gioiTinh;
@@ -26,7 +26,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     private double soTienGui = 0;
     private int matKhau;
     private LocalDate ngayDangKy = LocalDate.now();
-    private String soTaiKhoang;
+    private String soTaiKhoan;
     public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau) {
         this.hoTen = hoTen;
         this.queQuan = queQuan;
@@ -34,6 +34,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         this.soCCCD = soCCCD;
         this.ngaySinh = ngaySinh;
         this.matKhau = matKhau;
+        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), (int)(Math.random()*(9999-1000+1)+1000));
     }
     public TaiKhoanKhongKyHan(){
         
@@ -182,22 +183,21 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
             choose = 3;
         }
         this.matKhau = (int)(Math.random()*(999999-100000+1)+100000);
-        this.soTaiKhoang = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), (int)(Math.random()*(9999-1000+1)+1000));
         return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
     }
 
     @Override
     public void hienThi() {
-        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
+        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Mật khẩu: %d\n+ Số tiền: %f\n",
                 this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.gioiTinh, this.queQuan, 
-                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.getSoTaiKhoang(), this.soTienGui);
+                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.getSoTaiKhoan(), this.matKhau, this.soTienGui);
     }
 
     /**
      * @return the soTaiKhoang
      */
-    public String getSoTaiKhoang() {
-        return soTaiKhoang;
+    public String getSoTaiKhoan() {
+        return this.soTaiKhoan;
     }
     public boolean kiemTraMatKhau(String s){
         if(s.length() != 6)
@@ -236,7 +236,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
                 xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.hoTen, this.soCCCD,
                         this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
                         this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
-                        this.soTaiKhoang, this.matKhau, this.soTienGui);
+                        this.soTaiKhoan, this.matKhau, this.soTienGui);
             }        } catch (IOException ex){
             Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -247,4 +247,17 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
             }
         }
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    /**
+     * @param soTaiKhoan the soTaiKhoang to set
+     */
+    public void setSoTaiKhoang(String soTaiKhoan) {
+        this.soTaiKhoan = soTaiKhoan;
+    }
+    
 }

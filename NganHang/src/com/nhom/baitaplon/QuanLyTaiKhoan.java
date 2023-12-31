@@ -4,6 +4,7 @@
  */
 package com.nhom.baitaplon;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author add
  */
-public class QuanLyTaiKhoan {
+public class QuanLyTaiKhoan implements Cloneable{
     private List<TaiKhoan> quanLyTaiKhoan = new ArrayList();
     
     
@@ -38,39 +39,41 @@ public class QuanLyTaiKhoan {
         }
         return null;
     }
-    
     public void moTaiKhoan(String s){
-        if(this.timKiem(s) != null){
-            System.out.print("+ Bạn đã có tài khoản không kỳ hạn của ngân hàng.\n");
-            System.out.print("+ Bạn có muốn tạo tài khoản có kỳ hạn không(y/n):");
-            String luaChon = CauHinh.input.nextLine();
-            if(luaChon.equalsIgnoreCase("y")){
-                TaiKhoanKhongKyHan tk = (TaiKhoanKhongKyHan) this.timKiem(s);
-                tk = new TaiKhoanCoKyHan();
-                tk.moTaiKhoan();
-                this.quanLyTaiKhoan.add(tk);
-                System.out.print("+ Mo tai khoan thanh cong.\n");
-                this.hienThiThongTinTaiKhoanKhachHang(tk);
-            }
-        }
-        else{
-            TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
-            TaiKhoan tk = tkkkh.moTaiKhoan();
-            this.quanLyTaiKhoan.add(tk);
-            System.out.print("+ Mo tai khoan thanh cong.\n");
-            this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
-            tkkkh.ghiThongTinVaoFile();
-        }
-        
+        TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
+        TaiKhoan tk = tkkkh.moTaiKhoan();
+        this.quanLyTaiKhoan.add(tk);
+        System.out.print("+ Mo tai khoan thanh cong.\n");
+        tk.hienThi();
+        this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
+        //tkkkh.ghiThongTinVaoFile();
+    }
+    public void moTaiKhoan(TaiKhoanKhongKyHan tkkkh){
+        TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
+        tkckh.moTaiKhoan();
+        tkckh.setHoTen(tkkkh.getHoTen());
+        tkckh.setSoCCCD(tkkkh.getSoCCCD());
+        tkckh.setGioiTinh(tkkkh.getGioiTinh());
+        tkckh.setQueQuan(tkkkh.getQueQuan());
+        tkckh.setSoTaiKhoang(tkkkh.getSoTaiKhoan());
+        tkckh.setNgayDangKy(LocalDate.now());
+        tkckh.setNgaySinh(tkkkh.getNgaySinh());
+        tkckh.setSoTienGui(0);
+        tkckh.setMatKhau(tkkkh.getMatKhau());
+        TaiKhoan tk = tkckh;
+        this.quanLyTaiKhoan.add(tk);
+        System.out.print("+ Mo tai khoan thanh cong.\n");
+        this.hienThiThongTinTaiKhoanKhachHang(tkckh);
+        tkkkh.ghiThongTinVaoFile();
     }
     public void hienThiThongTinTaiKhoanKhachHang(TaiKhoanKhongKyHan tkkkh){
         System.out.print("\n\t\t Thông tin của bạn như sau\n");
-        tkkkh.hienThi();
+        System.out.print(tkkkh.getSoTaiKhoan());
         System.out.printf("+ Mật khẩu: %d", tkkkh.getMatKhau());
         this.xacNhanDoiMatKhau(tkkkh);
     }
     public void xacNhanDoiMatKhau(TaiKhoanKhongKyHan tkkkh){
-        System.out.print("+ Bạn có muốn đổi mật khẩu hay không(y/n):");
+        System.out.print("\n+ Bạn có muốn đổi mật khẩu hay không(y/n):");
         String luaChon = CauHinh.input.nextLine();
         if(luaChon.equalsIgnoreCase("y")){
             tkkkh.doiMatKhau();
@@ -78,5 +81,7 @@ public class QuanLyTaiKhoan {
         }   
         return;
     }
-    
+    public void hienThiThongTin(){
+        this.quanLyTaiKhoan.stream().forEach(h -> h.hienThi());
+    }
 }

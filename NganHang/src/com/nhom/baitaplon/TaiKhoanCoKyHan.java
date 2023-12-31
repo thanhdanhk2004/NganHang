@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author add
  */
-public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
+public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
 
     private LocalDate ngayDaoHan = LocalDate.now();
     private KyHan thongTinKyHan;
@@ -58,39 +58,38 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     @Override
     public TaiKhoanCoKyHan moTaiKhoan() {
         System.out.print("=== BẠN MUỐN CHỌN LOẠI KỲ HẠN NÀO ===\n"
-                + "1) Kỳ hạn một tuần.\n"
-                + "2) Kỳ hạn một tháng.\n"
-                + "3) Kỳ hạn sáu tháng.\n"
-                + "4) Kỳ hạn một năm.\n"
-                + "=== MỜI BẠN CHỌN ===\n");
-        this.loaiKyHan = CauHinh.input.nextInt();
-        try {
-            System.out.print("* Đăng ký thành công.\n");
-        } catch (Exception ex) {
-            System.out.print("Bạn chọn sai nên loại kỳ hạn của bạn là kỳ hạn một tuần");
-            this.loaiKyHan = 1;
-        }
-        if (this.loaiKyHan == 1){
-            // thongTinKyHan = (KyHanMotTuan)(thongTinKyHan);
-            thongTinKyHan = new KyHanMotTuan(7, 2, this.getSoTienGui());
+                    + "1) Kỳ hạn một tuần.\n"
+                    + "2) Kỳ hạn một tháng.\n"
+                    + "3) Kỳ hạn sáu tháng.\n"
+                    + "4) Kỳ hạn một năm.\n"
+                    + "=== MỜI BẠN CHỌN ===\n");
+            this.loaiKyHan = CauHinh.input.nextInt();
+            try {
+                System.out.print("* Đăng ký thành công.\n");
+            } catch (Exception ex) {
+                System.out.print("Bạn chọn sai nên loại kỳ hạn của bạn là kỳ hạn một tuần");
+                this.loaiKyHan = 1;
+            }
+            if (this.loaiKyHan == 1){
+                // thongTinKyHan = (KyHanMotTuan)(thongTinKyHan);
+                thongTinKyHan = new KyHanMotTuan(7, 2, this.getSoTienGui());
+                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+            } else if (this.loaiKyHan == 2) {
+                //thongTinKyHan = (KyHanMotThang)(thongTinKyHan);
+                thongTinKyHan = new KyHanMotThang(1, 5.5, this.getSoTienGui());
+                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+            } else if (this.loaiKyHan == 3) {
+                // thongTinKyHan = (KyHanSauThang)(thongTinKyHan);
+                thongTinKyHan = new KyHanSauThang(6, 7.5, this.getSoTienGui());
+                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+            } else {
+                //thongTinKyHan = (KyHanMotNam)(thongTinKyHan);
+                thongTinKyHan = new KyHanMotNam(7, 2, this.getSoTienGui());
+                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+            }
             this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        } else if (this.loaiKyHan == 2) {
-            //thongTinKyHan = (KyHanMotThang)(thongTinKyHan);
-            thongTinKyHan = new KyHanMotThang(1, 5.5, this.getSoTienGui());
-            this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        } else if (this.loaiKyHan == 3) {
-            // thongTinKyHan = (KyHanSauThang)(thongTinKyHan);
-            thongTinKyHan = new KyHanSauThang(6, 7.5, this.getSoTienGui());
-            this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        } else {
-            //thongTinKyHan = (KyHanMotNam)(thongTinKyHan);
-            thongTinKyHan = new KyHanMotNam(7, 2, this.getSoTienGui());
-            this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        }
-        this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-        return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
+            return this;
     }
-
     @Override
     public void hienThi() {
         super.hienThi();
@@ -107,7 +106,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
                 xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.getHoTen(), this.getSoCCCD(),
                         this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
                         this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
-                        this.getSoTaiKhoang(), this.getMatKhau(), this.getSoTienGui());
+                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui());
             }        
         } catch (IOException ex){
             //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,7 +117,6 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
                 //Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
     }
     
 }
