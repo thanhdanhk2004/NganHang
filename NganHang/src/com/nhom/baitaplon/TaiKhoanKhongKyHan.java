@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +30,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     private int matKhau;
     private LocalDate ngayDangKy = LocalDate.now();
     private String soTaiKhoan;
+    private List<TaiKhoanCoKyHan> quanDanhSachTaiKhoanCoKyHan = new ArrayList();
     public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau) {
         this.hoTen = hoTen;
         this.queQuan = queQuan;
@@ -316,6 +320,36 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
             System.out.print("* Thông tin đã được lưu.\n");
         }
     }
-    
+
+    @Override
+    public void goiTien(double soTien) {
+        this.soTienGui += soTien;
+    }
+
+    @Override
+    public void rutTien(double soTien) {
+        if(this.soTienGui >= soTien)
+            this.soTienGui += soTien;
+    }
+
+    /**
+     * @return the quanDanhSachTaiKhoanCoKyHan
+     */
+    public List<TaiKhoanCoKyHan> getQuanDanhSachTaiKhoanCoKyHan() {
+        return quanDanhSachTaiKhoanCoKyHan;
+    }
+
+    /**
+     * @param quanDanhSachTaiKhoanCoKyHan the quanDanhSachTaiKhoanCoKyHan to set
+     */
+    public void setQuanDanhSachTaiKhoanCoKyHan(List<TaiKhoanCoKyHan> quanDanhSachTaiKhoanCoKyHan) {
+        this.quanDanhSachTaiKhoanCoKyHan = quanDanhSachTaiKhoanCoKyHan;
+    }
+
+    @Override
+    public double tinhTienLai(double laiSuat) {
+        int soNgayGui = (int) ChronoUnit.DAYS.between(this.ngayDangKy, LocalDate.now());
+        return this.soTienGui*laiSuat*soNgayGui/360;
+    }
     
 }

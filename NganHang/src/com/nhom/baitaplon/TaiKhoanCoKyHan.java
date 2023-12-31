@@ -72,24 +72,24 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                 this.loaiKyHan = 1;
             }
             if (this.loaiKyHan == 1){
-                thongTinKyHan = new KyHanMotTuan(7, 2, this.getSoTienGui());
-                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+                setThongTinKyHan(new KyHanMotTuan(7, 2, this.getSoTienGui()));
+                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
             } else if (this.loaiKyHan == 2) {
-                thongTinKyHan = new KyHanMotThang(1, 5.5, this.getSoTienGui());
-                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+                setThongTinKyHan(new KyHanMotThang(1, 5.5, this.getSoTienGui()));
+                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
             } else if (this.loaiKyHan == 3) {
-                thongTinKyHan = new KyHanSauThang(6, 5.5, this.getSoTienGui());
-                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+                setThongTinKyHan(new KyHanSauThang(6, 5.5, this.getSoTienGui()));
+                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
             } else {
-                thongTinKyHan = new KyHanMotNam(7, 2, this.getSoTienGui());
-                this.ngayDaoHan = thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+                setThongTinKyHan(new KyHanMotNam(7, 2, this.getSoTienGui()));
+                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
             }
-            return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
+        return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
     }
     @Override
     public void hienThi() {
         super.hienThi();
-        thongTinKyHan.hienThiThongTinKyHan();
+        getThongTinKyHan().hienThiThongTinKyHan();
         System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)));
     }
 
@@ -114,7 +114,19 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                 //Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
     }
-    
+
+    /**
+     * @return the thongTinKyHan
+     */
+    public KyHan getThongTinKyHan() {
+        return thongTinKyHan;
+    }
+
+    /**
+     * @param thongTinKyHan the thongTinKyHan to set
+     */
+    public void setThongTinKyHan(KyHan thongTinKyHan) {
+        this.thongTinKyHan = thongTinKyHan;
+    }
 }

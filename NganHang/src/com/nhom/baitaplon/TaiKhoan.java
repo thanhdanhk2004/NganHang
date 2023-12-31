@@ -13,4 +13,7 @@ public interface TaiKhoan {
     public abstract void hienThi();
     public abstract void doiMatKhau();
     public abstract void ghiThongTinVaoFile();
+    public abstract void rutTien(double rutTien);
+    public abstract void goiTien(double soTien);
+    public abstract double tinhTienLai(double laiSuat);
 }

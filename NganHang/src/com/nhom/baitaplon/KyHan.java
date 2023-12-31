@@ -61,7 +61,7 @@ public abstract class KyHan {
         this.soTien = soTien;
     }
     
-    public abstract double tinhTienLai();
+    public abstract double tinhTienLai(LocalDate d);
     public abstract LocalDate tinhNgayDaoHan(LocalDate d);
     public abstract void hienThiThongTinKyHan();
 }

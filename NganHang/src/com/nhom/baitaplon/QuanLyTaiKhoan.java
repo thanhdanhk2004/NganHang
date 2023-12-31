@@ -12,9 +12,8 @@ import java.util.List;
  *
  * @author add
  */
-public class QuanLyTaiKhoan implements Cloneable{
+public class QuanLyTaiKhoan{
     private List<TaiKhoan> quanLyTaiKhoan = new ArrayList();
-    
     
     /**
      * @return the quanLyTaiKhoan
@@ -33,7 +32,7 @@ public class QuanLyTaiKhoan implements Cloneable{
         for(TaiKhoan i: this.quanLyTaiKhoan){
             if(i instanceof TaiKhoanKhongKyHan){
                 TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan)i;
-                if(x.getSoCCCD().equalsIgnoreCase(s))
+                if(x.getSoCCCD().equalsIgnoreCase(s) || x.getSoTaiKhoan().equalsIgnoreCase(s))
                     return i;
             }
         }
@@ -60,7 +59,7 @@ public class QuanLyTaiKhoan implements Cloneable{
         tkckh.setNgaySinh(tkkkh.getNgaySinh());
         tkckh.setSoTienGui(0);
         tkckh.setMatKhau(tkkkh.getMatKhau());
-        this.quanLyTaiKhoan.add(tkckh);
+        tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
         System.out.print("+ Mo tai khoan thanh cong.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkckh);
         tkckh.ghiThongTinVaoFile();
@@ -75,9 +74,7 @@ public class QuanLyTaiKhoan implements Cloneable{
         CauHinh.input.nextLine();
         System.out.print("\n+ Bạn có muốn đổi mật khẩu hay không(y/n):");
         String luaChon = CauHinh.input.nextLine();
-      
         if(luaChon.equalsIgnoreCase("y")){
-           
             tkkkh.doiMatKhau();
             return;
         }   
@@ -85,5 +82,44 @@ public class QuanLyTaiKhoan implements Cloneable{
     }
     public void hienThiThongTin(){
         this.quanLyTaiKhoan.stream().forEach(h -> h.hienThi());
+    }
+    
+    public List<TaiKhoan> locTaiKhoanTheoTien(){
+        List<TaiKhoan> list = new ArrayList();
+        int dem = 0;
+        for(TaiKhoan i:this.quanLyTaiKhoan){
+            double tong = 0;
+            TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) i;
+            tong += tkkkh.getSoTienGui();
+            for(TaiKhoanCoKyHan j:tkkkh.getQuanDanhSachTaiKhoanCoKyHan()){
+                tong += j.getSoTienGui();
+            }
+            tkkkh.setSoTienGui(tong);
+            list.add(tkkkh);
+        }
+        return list;
+    }
+    public void sapXepThongTinTheoTienGiamDan(List<TaiKhoan> list){
+        list.sort((h1,h2)->{
+            TaiKhoanKhongKyHan t1 = (TaiKhoanKhongKyHan) h1;
+            TaiKhoanKhongKyHan t2 = (TaiKhoanKhongKyHan) h2;
+            double a =t1.getSoTienGui();
+            double b = t2.getSoTienGui();
+            if(a > b)
+                return -1;
+            else if(a < b)
+                return 1;
+            return 0;
+        });
+    }
+    public double tinhTienLaiCuaKhachHang(String s){
+        double tienLai = 0;
+        TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
+        if(tkkkh != null){
+            tienLai += tkkkh.tinhTienLai(0.2);
+            for(TaiKhoanCoKyHan i: tkkkh.getQuanDanhSachTaiKhoanCoKyHan())
+                i.getKyHan().tinhTienLai(tienLai);
+        }
+        return tienLai;
     }
 }
