@@ -31,8 +31,7 @@ public class QuanLyTaiKhoan implements Cloneable{
     }
     public TaiKhoan timKiem(String s){
         for(TaiKhoan i: this.quanLyTaiKhoan){
-            if(i instanceof TaiKhoanKhongKyHan){
-                TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan)i;
+            if(i instanceof TaiKhoanKhongKyHan x){
                 if(x.getSoCCCD().equalsIgnoreCase(s))
                     return i;
             }
@@ -72,16 +71,14 @@ public class QuanLyTaiKhoan implements Cloneable{
         this.xacNhanDoiMatKhau(tkkkh);
     }
     public void xacNhanDoiMatKhau(TaiKhoanKhongKyHan tkkkh){
-        CauHinh.input.nextLine();
+        CauHinh.SC.nextLine();
         System.out.print("\n+ Bạn có muốn đổi mật khẩu hay không(y/n):");
-        String luaChon = CauHinh.input.nextLine();
+        String luaChon = CauHinh.SC.nextLine();
       
         if(luaChon.equalsIgnoreCase("y")){
            
             tkkkh.doiMatKhau();
-            return;
         }   
-        return;
     }
     public void hienThiThongTin(){
         this.quanLyTaiKhoan.stream().forEach(h -> h.hienThi());
