@@ -173,95 +173,6 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         this.soTaiKhoan = soTaiKhoan;
     }
 
-    public String nhapHoTen() {
-        String hoTen;
-        do {
-            System.out.print("+ Nhập họ tên: ");
-            hoTen = CauHinh.SC.nextLine().toUpperCase();
-            if (!hoTen.matches("[A-Za-z]")) {
-                System.out.println("\nTên chỉ có thể chứa chữ cái! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        } while (!hoTen.matches("[A-Za-z]"));
-        return hoTen;
-    }
-
-    public LocalDate nhapNgayThangNamSinh() {
-        String ngaySinh;
-        do {
-            System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy): ");
-            ngaySinh = CauHinh.SC.nextLine();
-            if (!ngaySinh.matches("(0[1-9]|[12]\\d|3[01])/(0[1-9]|1[0-2])/([12]\\d{3})")) {
-                System.out.println("\nDữ liệu phải được nhập dưới dạng(dd/mm/yyyy)! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        } while (!ngaySinh.matches("(0[1-9]|[12]\\d|3[01])/(0[1-9]|1[0-2])/([12]\\d{3})"));
-        return LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
-    }
-
-    public String nhapSoCCCD() {
-        String soCCCD;
-        do {
-            System.out.print("+ Nhập số căn cước công dân: ");
-            soCCCD = CauHinh.SC.nextLine();
-            if (!soCCCD.matches("[0-9]+")) {
-                System.out.println("\nCăn cước công dân chỉ bao gồm chữ số! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        } while (!soCCCD.matches("[0-9]+"));
-        return soCCCD;
-    }
-
-    public String nhapQueQuan() {
-        String queQuan;
-        do {
-            System.out.print("+ Nhập vào quê quán: ");
-            queQuan = CauHinh.SC.nextLine();
-            if (!queQuan.matches("[A-Za-z]")) {
-                System.out.println("\nQuê quán chỉ bao gồm chữ cái! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        } while (!queQuan.matches("[A-Za-z]"));
-        return queQuan;
-    }
-
-    public String nhapGioiTinh() {
-        int choice;
-        String gioiTinh = "Khác";
-        do {
-            choice = NganHang.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
-
-            switch (choice) {
-                case 1:
-                    gioiTinh = "Nam";
-                    break;
-                case 2:
-                    gioiTinh = "Nữ";
-                    break;
-                case 3:
-                    gioiTinh = "Khác";
-                    break;
-                default:
-                    System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
-                    CauHinh.SC.nextLine();
-            }
-        } while (choice != 1 && choice != 2 && choice != 3);
-        return gioiTinh;
-    }
-
-    public int nhapMatKhau() {
-        String matKhau;
-        do {
-            System.out.print("Nhập mật khẩu: ");
-            matKhau = CauHinh.SC.nextLine();
-            if (matKhau.length() != 6 || !matKhau.matches("[0-9]+")) {
-                System.out.println("\nMật khẩu chỉ có thể bao gồm 6 chữ số! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        } while (matKhau.length() != 6 || !matKhau.matches("[0-9]+"));
-        return Integer.parseInt(matKhau);
-    }
-
     @Override
     public TaiKhoanKhongKyHan moTaiKhoan() {
         System.out.print("=== THÔNG TIN CÁ NHÂN ===\n");
@@ -269,8 +180,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         this.hoTen = CauHinh.SC.nextLine();
         this.hoTen = this.hoTen.toUpperCase();
         System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
-        String ngaySinh = CauHinh.SC.nextLine();
-        this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
+        String ns = CauHinh.SC.nextLine();
+        this.ngaySinh = LocalDate.parse(ns, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
 
         System.out.print("+ Nhập vào quê quán: ");
         this.queQuan = CauHinh.SC.nextLine();
@@ -294,7 +205,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             }
         } while (choice != 1 && choice != 2 && choice != 3);
         this.matKhau = (int) (Math.random() * (999999 - 100000 + 1) + 100000);
-        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), this.dem++);
+        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), TaiKhoanKhongKyHan.dem++);
         return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
     }
 
@@ -308,7 +219,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     @Override
     public void doiMatKhau() {
         int s1, s2;
-        s1 = nhapMatKhau();
+        s1 = CauHinh.nhapMatKhau();
         do {
             System.out.print("* Nhập lại mật khẩu mới(Sáu số):");
             s2 = Integer.parseInt(CauHinh.SC.nextLine());
@@ -352,23 +263,23 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             switch (sua) {
                 case 1 -> {
                     System.out.println("+ SỬA HỌ TÊN:");
-                    this.hoTen = nhapHoTen();
+                    this.hoTen = CauHinh.nhapHoTen();
                 }
                 case 2 -> {
                     System.out.print("+ SỬA NGÀY THÁNG NĂM SINH:");
-                    LocalDate s = nhapNgayThangNamSinh();
+                    this.ngaySinh = CauHinh.nhapNgayThangNamSinh();
                 }
                 case 3 -> {
                     System.out.print("+ SỬA QUÊ QUÁN:");
-                    this.hoTen = nhapQueQuan();
+                    this.hoTen = CauHinh.nhapQueQuan();
                 }
                 case 4 -> {
                     System.out.print("+ SỬA GIỚI TÍNH:");
-                    this.gioiTinh = nhapGioiTinh();
+                    this.gioiTinh = CauHinh.nhapGioiTinh();
                 }
                 case 5 -> {
                     System.out.print("+ SỬA SỐ CĂN CƯỚC CÔNG DÂN:");
-                    this.soCCCD = nhapSoCCCD();
+                    this.soCCCD = CauHinh.nhapSoCCCD();
                 }
                 case 6 -> {
                     System.out.print("+ Thông tin của bạn đã được lưu.\n");
@@ -379,7 +290,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
                 }
 
             }
-        } while (sua > 0 & sua < 6);
+        } while (sua != 6);
     }
 
     @Override
