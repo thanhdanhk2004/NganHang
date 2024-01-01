@@ -173,7 +173,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         System.out.print("+ Nhập họ tên: ");
         this.hoTen = CauHinh.SC.nextLine();
         System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
-        String ngaySinh = CauHinh.input.nextLine();
+        String ngaySinh = CauHinh.SC.nextLine();
         this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
         System.out.print("+ Nhập số căn cước công dân:");
         this.soCCCD = CauHinh.SC.nextLine();
