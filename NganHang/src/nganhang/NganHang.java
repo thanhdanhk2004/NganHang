@@ -14,16 +14,6 @@ import com.nhom.baitaplon.TaiKhoanKhongKyHan;
  * @author add
  */
 public class NganHang {
-     public static int menu(String prom) {
-        System.out.print(prom);
-        String choice = CauHinh.SC.nextLine();
-        if (choice.matches("[0-9]+")) {
-            return Integer.parseInt(choice);
-        }
-        else
-            return 0;
-
-    }
      
     public static void khoangTrang(){
         for(int i=0;i<3;i++){
@@ -37,7 +27,7 @@ public class NganHang {
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
         int choice;
         do {
-            choice = menu("============== MENU LỰA CHỌN ================\n"
+            choice = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
                     + "1) Đăng nhập.\n"
                     + "2) Mở tài khoản ngân hàng.\n"
                     + "3) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
@@ -46,6 +36,7 @@ public class NganHang {
                     + ">>Bạn chọn: ");
             switch (choice) {
                 case 1 -> {
+                    
                     break;
                 }
                 case 2 -> {

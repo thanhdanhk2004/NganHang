@@ -7,11 +7,8 @@ package com.nhom.baitaplon;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import nganhang.NganHang;
 
 /**
  *
@@ -59,31 +56,36 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     @Override
     public TaiKhoanCoKyHan moTaiKhoan() {
-        int choice = NganHang.menu("=== LỰA CHỌN KỲ HẠN ===\n"
-                + "1) Kỳ hạn một tuần.\n"
-                + "2) Kỳ hạn một tháng.\n"
-                + "3) Kỳ hạn sáu tháng.\n"
-                + "4) Kỳ hạn một năm.\n"
-                + "=== MỜI BẠN CHỌN ===\n"
-                + ">>Bạn chọn: ");
+        int choice;
+        System.out.println("=== LOẠI KỲ HẠN ===");
+        int i;
+        for(i = 0; i < CauHinh.SLKH; i++) {
+            System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
+        }
+        String ch = CauHinh.SC.nextLine();
+        if (ch.matches("[0-9]+")) {
+             choice = Integer.parseInt(ch);
+        }
+        else
+            choice = 0;
         switch (choice) {
             case 1 -> {
-                setThongTinKyHan(new KyHanMotTuan(7, 2, this.getSoTienGui()));
+                setThongTinKyHan(new KyHanMotTuan(this.getSoTienGui()));
                 this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
                 break;
             }
             case 2 -> {
-                setThongTinKyHan(new KyHanMotThang(1, 5.5, this.getSoTienGui()));
+                setThongTinKyHan(new KyHanMotThang(this.getSoTienGui()));
                 this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
                 break;
             }
             case 3 -> {
-                setThongTinKyHan(new KyHanSauThang(6, 5.5, this.getSoTienGui()));
+                setThongTinKyHan(new KyHanSauThang(this.getSoTienGui()));
                 this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
                 break;
             }
             case 4 -> {
-                setThongTinKyHan(new KyHanMotNam(7, 2, this.getSoTienGui()));
+                setThongTinKyHan(new KyHanMotNam(this.getSoTienGui()));
                 this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
                 break;
             }

@@ -5,21 +5,31 @@
 package com.nhom.baitaplon;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  * @author add
  */
 public abstract class KyHan {
+    private static ArrayList<KyHan> arrLKH = new ArrayList<>();
     private int ngay;
     private double laiSuat;
     private double soTien;
+    
+    {
+        KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
+        
+    }
+
     public KyHan(int ngay, double laiSuat, double soTien) {
         this.ngay = ngay;
         this.laiSuat = laiSuat;
         this.soTien = soTien;
     }
-    
+
     /**
      * @return the ngay
      */
@@ -47,10 +57,11 @@ public abstract class KyHan {
     public void setLaiSuat(double laiSuat) {
         this.laiSuat = laiSuat;
     }
+
     /**
      * @return the soTien
      */
-     public double getSoTien() {
+    public double getSoTien() {
         return soTien;
     }
 
@@ -60,8 +71,20 @@ public abstract class KyHan {
     public void setSoTien(double soTien) {
         this.soTien = soTien;
     }
-    
+
     public abstract double tinhTienLai(LocalDate d);
+
     public abstract LocalDate tinhNgayDaoHan(LocalDate d);
+
     public abstract void hienThiThongTinKyHan();
+
+    /**
+     * @return the arrLKH
+     */
+    public static ArrayList<KyHan> getArrLKH() {
+        return arrLKH;
+    }
+    
+    public abstract String getTen();
+    
 }

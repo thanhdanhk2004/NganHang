@@ -5,20 +5,20 @@
 package com.nhom.baitaplon;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 /**
  *
  * @author add
  */
 public class KyHanMotNam extends KyHan{
-    public KyHanMotNam(int ngay, double laiSuat, double soTien) {
-        super(ngay, laiSuat, soTien);
+
+    private String ten = "Kỳ hạn một năm";
+    public KyHanMotNam(double soTien) {
+        super(360, 0.079, soTien);
     }
     @Override
     public double tinhTienLai(LocalDate d) {
-        int soNgayGui = (int) ChronoUnit.DAYS.between(d, LocalDate.now());
-        return this.getSoTien()*this.getLaiSuat()*soNgayGui/360;
+        return this.getSoTien()*this.getLaiSuat();
     }
     @Override
     public LocalDate tinhNgayDaoHan(LocalDate d) {
@@ -26,7 +26,11 @@ public class KyHanMotNam extends KyHan{
     }
     @Override
     public void hienThiThongTinKyHan() {
-        System.out.print("+ Loại kỳ hạn: Kỳ hạn một tuần.\n+ Lãi suất: 7.9%/năm.\n");
+        System.out.print("+ Loại kỳ hạn: Kỳ hạn một năm.\n+ Lãi suất: 7.9%/năm.\n");
     }
     
+    @Override
+    public String getTen() {
+        return this.ten;
+    }
 }

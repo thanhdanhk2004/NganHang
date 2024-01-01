@@ -8,7 +8,6 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import nganhang.NganHang;
 
 /**
  *
@@ -18,6 +17,7 @@ public class CauHinh {
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+    public static final int SLKH = 4;
     
     public static String nhapHoTen() {
         String ten;
@@ -75,7 +75,7 @@ public class CauHinh {
         int choice;
         String gt = "Khác";
         do {
-            choice = NganHang.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
+            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
 
             switch (choice) {
                 case 1 -> gt = "Nam";
@@ -102,4 +102,16 @@ public class CauHinh {
         } while (mk.length() != 6 || !mk.matches("[0-9]+"));
         return Integer.parseInt(mk);
     }
+    
+    public static int menu(String prom) {
+        System.out.print(prom);
+        String choice = CauHinh.SC.nextLine();
+        if (choice.matches("[0-9]+")) {
+            return Integer.parseInt(choice);
+        }
+        else
+            return 0;
+
+    }
+
 }

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nganhang.NganHang;
 
 /**
  *
@@ -187,7 +186,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         this.queQuan = CauHinh.SC.nextLine();
         int choice;
         do {
-            choice = NganHang.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
+            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
 
             switch (choice) {
                 case 1:
@@ -256,7 +255,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     public void suaThongTin() {
         int sua;
         do {
-            sua = NganHang.menu("=== CHỌN THÔNG TIN CẦN CHỈNH SỬA ===\n"
+            sua = CauHinh.menu("=== CHỌN THÔNG TIN CẦN CHỈNH SỬA ===\n"
                     + "1) Họ tên.\n2) Ngày sinh.\n3) Quê quán.\n4) Giới tính.\n5) Số cccd.\n6) Thông tin đã chính xác.\n"
                     + ">>Bạn chon: ");
             CauHinh.SC.nextLine();
