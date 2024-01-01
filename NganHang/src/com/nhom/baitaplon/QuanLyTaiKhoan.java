@@ -189,4 +189,9 @@ public class QuanLyTaiKhoan{
         }
         return;
     }
+    
+    public void hello(){
+        
+    }
+    
 }
