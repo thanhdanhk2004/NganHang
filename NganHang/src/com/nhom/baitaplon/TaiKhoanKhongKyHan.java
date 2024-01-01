@@ -33,7 +33,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     private LocalDate ngayDangKy = LocalDate.now();
     private String soTaiKhoan;
     private List<TaiKhoanCoKyHan> quanDanhSachTaiKhoanCoKyHan = new ArrayList();
-
+    private boolean trangThai;
     public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau) {
         this.hoTen = hoTen;
         this.queQuan = queQuan;
@@ -41,6 +41,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         this.soCCCD = soCCCD;
         this.ngaySinh = ngaySinh;
         this.matKhau = matKhau;
+        this.trangThai = true;
     }
 
     public TaiKhoanKhongKyHan() {
@@ -214,6 +215,11 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
                 this.hoTen, this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.gioiTinh, this.queQuan,
                 this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.soTaiKhoan, this.soTienGui);
+        if(this.trangThai == true){
+            System.out.print("+ Trạng thái: Không bị khóa.\n");
+        }
+        else
+            System.out.print("+ Trạng thái: Có kỳ hạn.\n");
     }
 
     @Override
@@ -237,10 +243,14 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n", this.hoTen, this.soCCCD,
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f,", this.hoTen, this.soCCCD,
                         this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.soTaiKhoan, this.matKhau, this.soTienGui);
+                if(this.trangThai == true)
+                    xuatFile.printf("Không bị khóa");
+                else
+                    xuatFile.printf("Bị khóa");
             }
         } catch (IOException ex) {
             Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
@@ -327,4 +337,18 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         return this.soTienGui * laiSuat * soNgayGui / 360;
     }
 
+    /**
+     * @return the trangThai
+     */
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    /**
+     * @param trangThai the trangThai to set
+     */
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
+    
 }
