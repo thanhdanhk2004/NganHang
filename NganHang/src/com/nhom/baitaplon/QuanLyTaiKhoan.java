@@ -30,8 +30,7 @@ public class QuanLyTaiKhoan{
     }
     public TaiKhoan timKiem(String s){
         for(TaiKhoan i: this.quanLyTaiKhoan){
-            if(i instanceof TaiKhoanKhongKyHan){
-                TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan)i;
+            if(i instanceof TaiKhoanKhongKyHan x){
                 if(x.getSoCCCD().equalsIgnoreCase(s) || x.getSoTaiKhoan().equalsIgnoreCase(s))
                     return i;
             }
@@ -54,7 +53,7 @@ public class QuanLyTaiKhoan{
         tkckh.setSoCCCD(tkkkh.getSoCCCD());
         tkckh.setGioiTinh(tkkkh.getGioiTinh());
         tkckh.setQueQuan(tkkkh.getQueQuan());
-        tkckh.setSoTaiKhoang(tkkkh.getSoTaiKhoan());
+        tkckh.setSoTaiKhoan(tkkkh.getSoTaiKhoan());
         tkckh.setNgayDangKy(LocalDate.now());
         tkckh.setNgaySinh(tkkkh.getNgaySinh());
         tkckh.setSoTienGui(0);
@@ -76,9 +75,7 @@ public class QuanLyTaiKhoan{
         String luaChon = CauHinh.SC.nextLine();
         if(luaChon.equalsIgnoreCase("y")){
             tkkkh.doiMatKhau();
-            return;
         }   
-        return;
     }
     public void hienThiThongTin(){
         this.quanLyTaiKhoan.stream().forEach(h -> h.hienThi());
@@ -86,7 +83,6 @@ public class QuanLyTaiKhoan{
     
     public List<TaiKhoan> locTaiKhoanTheoTien(){
         List<TaiKhoan> list = new ArrayList();
-        int dem = 0;
         for(TaiKhoan i:this.quanLyTaiKhoan){
             double tong = 0;
             TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) i;
@@ -168,8 +164,7 @@ public class QuanLyTaiKhoan{
     public List<TaiKhoan> traCuuTaiKhoan(String s){
         List<TaiKhoan> danhSachTaiKhoan = new ArrayList();
         for(TaiKhoan i: this.quanLyTaiKhoan){
-            if(i instanceof TaiKhoanKhongKyHan){
-                TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan)i;
+            if(i instanceof TaiKhoanKhongKyHan x){
                 if(x.getSoTaiKhoan().equalsIgnoreCase(s) || x.getHoTen().contains(s))
                     danhSachTaiKhoan.add(i);
             }
@@ -183,11 +178,9 @@ public class QuanLyTaiKhoan{
         String s = CauHinh.SC.nextLine();
         if(this.timKiem(s) != null){
             System.out.print("* Bạn đã có tài khoản tại ngân hàng chúng tôi.\n");
-            return;
         }else{
             this.moTaiKhoan(s);
         }
-        return;
     }
     
     public void hello(){

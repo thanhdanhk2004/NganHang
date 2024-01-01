@@ -35,16 +35,16 @@ public class NganHang {
      */
    public static void main(String[] args) {
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
-        int choose;
+        int choice;
         do {
-            choose = menu("============== MENU LỰA CHỌN ================\n"
+            choice = menu("============== MENU LỰA CHỌN ================\n"
                     + "1) Đăng nhập.\n"
                     + "2) Mở tài khoản ngân hàng.\n"
                     + "3) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
                     + "4) Thoát chương trình.\n"
                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                     + ">>Bạn chọn: ");
-            switch (choose) {
+            switch (choice) {
                 case 1 -> {
                     break;
                 }
@@ -80,7 +80,7 @@ public class NganHang {
                 }
 
             }
-        } while (choose != 4);
+        } while (choice != 4);
     }
     
 }
