@@ -44,8 +44,8 @@ public class QuanLyTaiKhoan{
         this.quanLyTaiKhoan.add(tkkkh);
         System.out.print("+ Mở tài khoản thành công.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
-        //tkkkh.suaThongTin();
-        //tkkkh.ghiThongTinVaoFile();
+        tkkkh.suaThongTin();
+        tkkkh.ghiThongTinVaoFile();
     }
     public void moTaiKhoan(TaiKhoanKhongKyHan tkkkh){
         TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
@@ -123,6 +123,7 @@ public class QuanLyTaiKhoan{
         }
         return tienLai;
     }
+    
     // Ham them tien vao tai khoan
     public void guiTienVaoTaiKhoanChinh(String s, double soTien){
         TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
@@ -130,8 +131,67 @@ public class QuanLyTaiKhoan{
     }
     public void rutTienKhoiTaiKhoanChinh(String s, double soTien){
         TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
-//        int rt = tkkkh.rutTien(soTien);
-//        if(rt == 1)
-//            System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
+        int rt = tkkkh.rutTien(soTien);
+        if(rt == 1)
+          System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
+        else
+            System.out.print("=== RÚT TIỀN THẤT BẠI ===\n");
     }
+    
+    public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh){
+        if(tkkkh.getSoTienGui() < 150000)
+            System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ TÀI KHOẢN CÓ KỲ HẠN ===\n");
+        else{
+            this.moTaiKhoan(tkkkh);
+            tkkkh.setSoTienGui(tkkkh.getSoTienGui() - 100000);
+            System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
+        }
+        
+    }
+    
+    // Hàm Tra cứu danh sách tài khoản của một khách hàng theo mã số khách hàng
+    public void traCuuDanhSachKhachHang(String s){
+        for(TaiKhoan i: this.quanLyTaiKhoan){
+            TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) i;
+            if(tkkkh.getSoTaiKhoan().equals(s)){
+                tkkkh.hienThi();
+                if(!tkkkh.getQuanDanhSachTaiKhoanCoKyHan().isEmpty()){
+                    System.out.print("* Tài khoản của khách hàng "+ tkkkh.getHoTen() + " có thêm " + tkkkh.getQuanDanhSachTaiKhoanCoKyHan().size() + "tài khoản có kỳ hạn.\n");
+                    for(TaiKhoanCoKyHan j: tkkkh.getQuanDanhSachTaiKhoanCoKyHan()){
+                        j.getThongTinKyHan().hienThiThongTinKyHan();
+                    }
+                }
+            } 
+        }
+    }
+    //  Tra cứu khách hàng theo họ tên và mã số khách hàng.
+    public List<TaiKhoan> traCuuTaiKhoan(String s){
+        List<TaiKhoan> danhSachTaiKhoan = new ArrayList();
+        for(TaiKhoan i: this.quanLyTaiKhoan){
+            if(i instanceof TaiKhoanKhongKyHan){
+                TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan)i;
+                if(x.getSoTaiKhoan().equalsIgnoreCase(s) || x.getHoTen().contains(s))
+                    danhSachTaiKhoan.add(i);
+            }
+        }
+        return danhSachTaiKhoan;
+    }
+    
+    // Hàm đăng ký
+    public void dangKy(){
+        System.out.print("+ Nhập vào số căn cước công dân của bạn:");
+        String s = CauHinh.SC.nextLine();
+        if(this.timKiem(s) != null){
+            System.out.print("* Bạn đã có tài khoản tại ngân hàng chúng tôi.\n");
+            return;
+        }else{
+            this.moTaiKhoan(s);
+        }
+        return;
+    }
+    
+    public void hello(){
+        
+    }
+    
 }

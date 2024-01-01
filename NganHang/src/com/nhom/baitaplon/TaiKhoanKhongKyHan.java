@@ -172,6 +172,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         System.out.print("=== HÃY NHẬP VÀO MỘT SỐ THÔNG TIN CÂN THIẾT ĐỂ MỞ TÀI KHOẢNG ===\n");
         System.out.print("+ Nhập họ tên: ");
         this.hoTen = CauHinh.SC.nextLine();
+        this.hoTen = this.hoTen.toUpperCase();
         System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
         String ngaySinh = CauHinh.SC.nextLine();
         this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
@@ -335,9 +336,12 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     }
 
     @Override
-    public void rutTien(double soTien) {
-        if(this.soTienGui >= soTien)
-            this.soTienGui += soTien;
+    public int rutTien(double soTien) {
+        if(this.soTienGui >= soTien){
+             this.soTienGui += soTien;
+             return 1;
+        }
+        return 0;
     }
 
     /**
