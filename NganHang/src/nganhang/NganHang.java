@@ -43,14 +43,14 @@ public class NganHang {
             menu();
             do{
                 System.out.print("- Nhập vào lựa chọn của bạn:");
-                choose = CauHinh.input.nextInt();
+                choose = CauHinh.SC.nextInt();
                 if(choose < 1 || choose > 11)
                     System.out.print("+ Nhập không hợp lệ! Mời nhập lại.\n");
             }while(choose < 1 || choose > 11);
-            CauHinh.input.nextLine();
+            CauHinh.SC.nextLine();
             if(choose == 1){
                 System.out.print("+ Nhập vào số cccd của bạn:");
-                String soCCCD = CauHinh.input.nextLine();
+                String soCCCD = CauHinh.SC.nextLine();
                 if(qltk.timKiem(soCCCD) != null){
                     System.out.print("+ Bạn đã có tài khoản không kỳ hạn của ngân hàng.\n");
                 }
@@ -63,9 +63,9 @@ public class NganHang {
             else if(choose == 8){
                 qltk.hienThiThongTin();
             }
-            CauHinh.input.nextLine();
+            CauHinh.SC.nextLine();
             System.out.print("\n* Nhấn Enter để tiếp tục.\n");
-            CauHinh.input.nextLine();
+            CauHinh.SC.nextLine();
             khoangTrang();
         }while(choose > 0 && choose < 11);
     }

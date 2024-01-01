@@ -14,8 +14,8 @@ import java.util.Scanner;
  * @author add
  */
 public class CauHinh {
-    public static Scanner input = new Scanner(System.in);
-    public static String DATE_fORMAT = "dd/MM/yyyy";
-    public static File file = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+    public static Scanner SC = new Scanner(System.in);
+    public static String DATE_FORMAT = "dd/MM/yyyy";
+    public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
     
 }

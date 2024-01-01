@@ -71,9 +71,9 @@ public class QuanLyTaiKhoan{
         this.xacNhanDoiMatKhau(tkkkh);
     }
     public void xacNhanDoiMatKhau(TaiKhoanKhongKyHan tkkkh){
-        CauHinh.input.nextLine();
+        CauHinh.SC.nextLine();
         System.out.print("\n+ Bạn có muốn đổi mật khẩu hay không(y/n):");
-        String luaChon = CauHinh.input.nextLine();
+        String luaChon = CauHinh.SC.nextLine();
         if(luaChon.equalsIgnoreCase("y")){
             tkkkh.doiMatKhau();
             return;
@@ -130,8 +130,8 @@ public class QuanLyTaiKhoan{
     }
     public void rutTienKhoiTaiKhoanChinh(String s, double soTien){
         TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
-        int rt = tkkkh.rutTien(soTien);
-        if(rt == 1)
-            System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
+//        int rt = tkkkh.rutTien(soTien);
+//        if(rt == 1)
+//            System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
     }
 }

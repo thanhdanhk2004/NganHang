@@ -64,7 +64,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
                     + "4) Kỳ hạn một năm.\n"
                     + "=== MỜI BẠN CHỌN ===\n");
             System.out.print("+ Chọn một loại kỳ hạn:");
-            this.loaiKyHan = CauHinh.input.nextInt();
+            this.loaiKyHan = CauHinh.SC.nextInt();
             try {
                 System.out.print("* Đăng ký thành công.\n");
             } catch (Exception ex) {
@@ -90,19 +90,19 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan{
     public void hienThi() {
         super.hienThi();
         getThongTinKyHan().hienThiThongTinKyHan();
-        System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)));
+        System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
     }
 
     @Override
     public void ghiThongTinVaoFile() {
         FileWriter fileWriter = null;
         try{
-            fileWriter = new FileWriter(CauHinh.file, true);
+            fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try(PrintWriter xuatFile = new PrintWriter(fileWriter)){
                 xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s,Ngày đáo hạn: %s, %s, %d, %.3f\n",this.getHoTen(), this.getSoCCCD(),
-                        this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
-                        this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
-                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui());
             }        
         } catch (IOException ex){
