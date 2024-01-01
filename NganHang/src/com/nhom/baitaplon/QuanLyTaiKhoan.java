@@ -112,14 +112,26 @@ public class QuanLyTaiKhoan{
             return 0;
         });
     }
+    // Ham xuat tien cua khach hang dua tren so tai khoan duoc cung cap
     public double tinhTienLaiCuaKhachHang(String s){
         double tienLai = 0;
         TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
         if(tkkkh != null){
             tienLai += tkkkh.tinhTienLai(0.2);
             for(TaiKhoanCoKyHan i: tkkkh.getQuanDanhSachTaiKhoanCoKyHan())
-                i.getKyHan().tinhTienLai(tienLai);
+                tienLai += i.getThongTinKyHan().tinhTienLai(i.getNgayDangKy());
         }
         return tienLai;
+    }
+    // Ham them tien vao tai khoan
+    public void guiTienVaoTaiKhoanChinh(String s, double soTien){
+        TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
+        tkkkh.goiTien(soTien);
+    }
+    public void rutTienKhoiTaiKhoanChinh(String s, double soTien){
+        TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(s);
+        int rt = tkkkh.rutTien(soTien);
+        if(rt == 1)
+            System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
     }
 }

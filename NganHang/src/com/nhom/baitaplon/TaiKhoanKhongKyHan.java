@@ -4,7 +4,6 @@
  */
 package com.nhom.baitaplon;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -172,32 +171,37 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     public TaiKhoanKhongKyHan moTaiKhoan() {
         System.out.print("=== HÃY NHẬP VÀO MỘT SỐ THÔNG TIN CÂN THIẾT ĐỂ MỞ TÀI KHOẢNG ===\n");
         System.out.print("+ Nhập họ tên: ");
-        this.hoTen = CauHinh.input.nextLine();
+        this.hoTen = CauHinh.SC.nextLine();
         System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
-        String ngaySinh = CauHinh.input.nextLine();
-        this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT));
+        String ngaySinh = CauHinh.SC.nextLine();
+        this.ngaySinh = LocalDate.parse(ngaySinh, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
         System.out.print("+ Nhập số căn cước công dân:");
-        this.soCCCD = CauHinh.input.nextLine();
+        this.soCCCD = CauHinh.SC.nextLine();
         System.out.print("+ Nhập vào quê quán: ");
-        this.queQuan = CauHinh.input.nextLine();
+        this.queQuan = CauHinh.SC.nextLine();
         System.out.printf("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
-        int choose;
+        int choice;
         try{
            System.out.print("- Lựa chọn giới tính của ban:");
-           choose = CauHinh.input.nextInt();
-           if(choose < 1 || choose > 3)
+           choice = CauHinh.SC.nextInt();
+           if(choice < 1 || choice > 3)
                System.out.print("+ khong hop le! Moi chon lai.\n");
            else{
-               if(choose == 1)
-                   this.gioiTinh = "Nam";
-               else if(choose == 2)
-                   this.gioiTinh = "Nữ";
-               else
-                   this.gioiTinh = "Khác";
+               switch (choice) {
+                   case 1:
+                       this.gioiTinh = "Nam";
+                       break;
+                   case 2:
+                       this.gioiTinh = "Nữ";
+                       break;
+                   default:
+                       this.gioiTinh = "Khác";
+                       break;
+               }
            }
         }catch(Exception ex){
             System.out.print("+ Do bạn nhập sai nên chúng tôi sẽ mặc định giới tính của bạn là khác.\n");
-            choose = 3;
+            choice = 3;
         }
         this.matKhau = (int)(Math.random()*(999999-100000+1)+100000);
         this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), (int)(Math.random()*(9999-1000+1)+1000));
@@ -207,8 +211,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     @Override
     public void hienThi() {
         System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
-                this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.gioiTinh, this.queQuan, 
-                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)), this.soTaiKhoan, this.soTienGui);
+                this.hoTen,this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.gioiTinh, this.queQuan, 
+                this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.soTaiKhoan, this.soTienGui);
     }
     
     public boolean kiemTraMatKhau(String s){
@@ -225,13 +229,13 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
         String s1,s2;
             do{
                 System.out.print("* Nhập vào mật khẩu mới(Sáu số): ");
-                s1 = CauHinh.input.nextLine();
+                s1 = CauHinh.SC.nextLine();
                 if(kiemTraMatKhau(s1)==false)
                     System.out.print("+ Lưu ý mật khẩu chỉ là số.\n");
             }while(kiemTraMatKhau(s1)==false);
             do{
                 System.out.print("* Nhập lại mật khẩu mới(Sáu số):");
-                s2 = CauHinh.input.nextLine();
+                s2 = CauHinh.SC.nextLine();
                 if(s1.equals(s2) == false)
                     System.out.print("+ Không trùng khớp! Mời nhâp lại.\n");
             }while(s1.equals(s2) == false);
@@ -243,11 +247,11 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
     public void ghiThongTinVaoFile() {
         FileWriter fileWriter = null;
         try{
-            fileWriter = new FileWriter(CauHinh.file, true);
+            fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try(PrintWriter xuatFile = new PrintWriter(fileWriter)){
                 xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f\n",this.hoTen, this.soCCCD,
-                        this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
-                        this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT)),
+                        this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.soTaiKhoan, this.matKhau, this.soTienGui);
             }        } catch (IOException ex){
             Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
@@ -270,47 +274,51 @@ public class TaiKhoanKhongKyHan implements TaiKhoan{
             do{
                 this.thongTinCanSua();
                 System.out.print("- Bạn muốn sửa thông tin số mấy:");
-                sua = CauHinh.input.nextInt();
-                CauHinh.input.nextLine();
+                sua = CauHinh.SC.nextInt();
+                CauHinh.SC.nextLine();
                 switch (sua) {
                     case 1 -> {
                         System.out.print("+ Hãy sửa lại họ tên:");
-                        this.hoTen = CauHinh.input.nextLine();
+                        this.hoTen = CauHinh.SC.nextLine();
                     }
                     case 2 -> {
                         System.out.print("+ Hãy sửa lại ngày sinh:");
-                        String s = CauHinh.input.nextLine();
-                        this.ngaySinh = LocalDate.parse(s, DateTimeFormatter.ofPattern(CauHinh.DATE_fORMAT));
+                        String s = CauHinh.SC.nextLine();
+                        this.ngaySinh = LocalDate.parse(s, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
                     }
                     case 3 -> {
                         System.out.print("+ Hãy sửa lại quê quán:");
-                        this.hoTen = CauHinh.input.nextLine();
+                        this.hoTen = CauHinh.SC.nextLine();
                     }
                     case 4 -> {
                         System.out.printf("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
-                        int choose;
+                        int choice;
                         try {
                             System.out.print("- Lựa chọn giới tính của ban:");
-                            choose = CauHinh.input.nextInt();
-                            if (choose < 1 || choose > 3) {
+                            choice = CauHinh.SC.nextInt();
+                            if (choice < 1 || choice > 3) {
                                 System.out.print("+ khong hop le! Moi chon lai.\n");
                             } else {
-                                if (choose == 1) {
-                                    this.gioiTinh = "Nam";
-                                } else if (choose == 2) {
-                                    this.gioiTinh = "Nữ";
-                                } else {
-                                    this.gioiTinh = "Khác";
+                                switch (choice) {
+                                    case 1:
+                                        this.gioiTinh = "Nam";
+                                        break;
+                                    case 2:
+                                        this.gioiTinh = "Nữ";
+                                        break;
+                                    default:
+                                        this.gioiTinh = "Khác";
+                                        break;
                                 }
                             }
                         } catch (Exception ex) {
                             System.out.print("+ Do bạn nhập sai nên chúng tôi sẽ mặc định giới tính của bạn là khác.\n");
-                            choose = 3;
+                            choice = 3;
                         }
                     }
                     case 5 -> {
                         System.out.print("+ Hãy sửa lại số cccd:");
-                        this.hoTen = CauHinh.input.nextLine();
+                        this.hoTen = CauHinh.SC.nextLine();
                     }
                     default ->
                         System.out.print("+ Thông tin của bạn đã được lưu.\n");
