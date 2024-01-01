@@ -4,9 +4,12 @@
  */
 package com.nhom.baitaplon;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -197,11 +200,79 @@ public class QuanLyTaiKhoan {
             this.moTaiKhoan(s);
         }
     }
-
-    public boolean dangNhap() {
-        
+    
+    public boolean kiemTraMatKhau(int mk){
+        for(TaiKhoan i:this.quanLyTaiKhoan){
+            if(i instanceof TaiKhoanKhongKyHan){
+                TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) i;
+                if(tkkkh.getMatKhau() == mk){
+                    return true;
+                } 
+            }
+        }
         return false;
-        
     }
-
+    
+    public boolean dangNhap() {
+        String stk;
+        do{
+            System.out.print("+ Nhập vào số tài khoản:");
+            stk = CauHinh.SC.nextLine();
+            if(this.timKiem(stk) == null)
+                 System.out.print("* Sai số tài khoản! Mời kiểm tra lại.\n");
+        }while(this.timKiem(stk) == null);
+        int dem=0, mk;
+        do{
+            System.out.print("+ Nhập vào mật khẩu:");
+            mk = CauHinh.nhapMatKhau();
+            if(this.kiemTraMatKhau(mk) == false){
+                System.out.print("* Sai mật khẩu! Mời nhập lại.\n");
+                dem++;
+            }
+        }while(this.kiemTraMatKhau(mk) == false && dem<3);
+        if(dem == 3 && this.kiemTraMatKhau(mk) == false){
+            TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) this.timKiem(stk);
+            tkkkh.setTrangThai(false);
+            System.out.print("* Tài khoản của bạn đã bị khóa! Vui lòng liên hệ với ngân hàng gần bạn nhât.\n");
+        }
+        else
+            System.out.print("* === ĐĂNG NHẬP THÀNH CÔNG ===\n");
+        return false;
+    }
+    
+    public void docDuLieuKhachHang() throws FileNotFoundException{
+        try (Scanner file = new Scanner(CauHinh.DATA_FILE)) {
+            String s;
+            int dem = 0;
+            while(file.hasNext()){
+                s = file.nextLine();
+                System.out.println(s);
+                if(s == "")
+                    break;
+                else{
+                    String str[] = s.split(",");
+                    if(str[5].equalsIgnoreCase("Tài khoảng có kỳ hạn")){
+                        TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
+                        this.moTaiKhoan(tkkkh2);
+                    }
+                    else{
+                        TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
+                        
+                        tkkkh.setHoTen(str[dem++].trim());
+                        tkkkh.setSoCCCD(str[dem++].trim());
+                        tkkkh.setNgaySinh(LocalDate.parse(str[dem++].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+                        tkkkh.setQueQuan(str[dem++].trim());
+                        tkkkh.setGioiTinh(str[dem++].trim());     
+                        tkkkh.setNgayDangKy(LocalDate.parse(str[++dem].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+                        tkkkh.setSoTaiKhoan(str[++dem].trim());
+                        tkkkh.setMatKhau(Integer.parseInt(str[++dem].trim()));
+                        tkkkh.setSoTienGui(Double.parseDouble(str[++dem].trim()));
+                        this.quanLyTaiKhoan.add(tkkkh);
+                    }
+                }
+                dem = 0;
+            }
+            file.close();
+        }
+    }
 }

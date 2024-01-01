@@ -110,11 +110,11 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s,Ngày đáo hạn: %s, %s, %d, %.3f\n", this.getHoTen(), this.getSoCCCD(),
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s\n", this.getHoTen(), this.getSoCCCD(),
                         this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui());
+                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui(),
+                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
             }
         } catch (IOException ex) {
             //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,4 +140,5 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     public void setThongTinKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
     }
+    
 }

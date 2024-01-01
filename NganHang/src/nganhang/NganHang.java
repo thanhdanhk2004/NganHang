@@ -8,6 +8,7 @@ package nganhang;
 import com.nhom.baitaplon.CauHinh;
 import com.nhom.baitaplon.QuanLyTaiKhoan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -22,9 +23,12 @@ public class NganHang {
     }
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
-   public static void main(String[] args) {
+   public static void main(String[] args) throws FileNotFoundException {
+        
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
+        qltk.docDuLieuKhachHang();
         int choice;
         do {
             choice = CauHinh.menu("============== MENU LỰA CHỌN ================\n"

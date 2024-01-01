@@ -77,6 +77,7 @@ public abstract class KyHan {
     public abstract LocalDate tinhNgayDaoHan(LocalDate d);
 
     public abstract void hienThiThongTinKyHan();
+<<<<<<< HEAD
 
     /**
      * @return the arrLKH
@@ -86,5 +87,7 @@ public abstract class KyHan {
     }
     
     public abstract String getTen();
+=======
+>>>>>>> e5488d033de64f9176d9fb3c3975927ad418ec5d
     
 }
