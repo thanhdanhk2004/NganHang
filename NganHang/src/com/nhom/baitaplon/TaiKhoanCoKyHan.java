@@ -8,30 +8,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author add
  */
 public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
-
     private LocalDate ngayDaoHan = LocalDate.now();
     private KyHan thongTinKyHan;
-    private int loaiKyHan;
-
-    public TaiKhoanCoKyHan(LocalDate ngayDaoHan, int loaiKyHan) {
-        this.ngayDaoHan = ngayDaoHan;
-        this.loaiKyHan = loaiKyHan;
+    private String loaiKyHan;
+    
+    public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
+        this.thongTinKyHan = thongTinKyHan;
     }
-
-    public TaiKhoanCoKyHan() {
-
-    }
-
+    public TaiKhoanCoKyHan(){};
     public LocalDate getNgayDaoHan() {
         return ngayDaoHan;
     }
@@ -46,58 +43,43 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     /**
      * @return the loaiKyHan
      */
-    public int getLoaiKyHan() {
+    public String getLoaiKyHan() {
         return loaiKyHan;
     }
 
     /**
      * @param loaiKyHan the loaiKyHan to set
      */
-    public void setLoaiKyHan(int loaiKyHan) {
+    public void setLoaiKyHan(String loaiKyHan) {
         this.loaiKyHan = loaiKyHan;
     }
 
     @Override
-    public TaiKhoanCoKyHan moTaiKhoan() {
-        int choice;
-        System.out.println("=== LOẠI KỲ HẠN ===");
-        int i;
-        for(i = 0; i < CauHinh.SLKH; i++) {
-            System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
+    public TaiKhoanCoKyHan moTaiKhoan(){
+        try {
+            int choice;
+            System.out.println("=== LOẠI KỲ HẠN ===");
+            int i;
+            for (i = 0; i < CauHinh.SLKH; i++) {
+                System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
+            }
+            System.out.print("- Bạn muốn chọn loại kỳ hạn nào:");
+            String ch = CauHinh.SC.nextLine();
+            if (ch.matches("[0-9]+")) {
+                choice = Integer.parseInt(ch);
+            } else {
+                choice = 0;
+            }
+            String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
+            Class c = Class.forName(classPath);
+            KyHan kyHan = (KyHan) c.getConstructor().newInstance();
+            this.thongTinKyHan = kyHan;
+            this.ngayDaoHan = this.thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
+            return new TaiKhoanCoKyHan(kyHan);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException ex) {
+            Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String ch = CauHinh.SC.nextLine();
-        if (ch.matches("[0-9]+")) {
-             choice = Integer.parseInt(ch);
-        }
-        else
-            choice = 0;
-        switch (choice) {
-            case 1 -> {
-                setThongTinKyHan(new KyHanMotTuan(this.getSoTienGui()));
-                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
-                break;
-            }
-            case 2 -> {
-                setThongTinKyHan(new KyHanMotThang(this.getSoTienGui()));
-                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
-                break;
-            }
-            case 3 -> {
-                setThongTinKyHan(new KyHanSauThang(this.getSoTienGui()));
-                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
-                break;
-            }
-            case 4 -> {
-                setThongTinKyHan(new KyHanMotNam(this.getSoTienGui()));
-                this.ngayDaoHan = getThongTinKyHan().tinhNgayDaoHan(this.ngayDaoHan);
-                break;
-            }
-            default -> {
-                System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
-                CauHinh.SC.nextLine();
-            }
-        }
-        return new TaiKhoanCoKyHan(this.ngayDaoHan, this.loaiKyHan);
+        return null;
     }
 
     @Override

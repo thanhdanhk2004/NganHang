@@ -14,7 +14,7 @@ import java.util.List;
  * @author add
  */
 public abstract class KyHan {
-    private static ArrayList<KyHan> arrLKH = new ArrayList<>();
+    private static List<KyHan> arrLKH = new ArrayList<>();
     private int ngay;
     private double laiSuat;
     private double soTien;
@@ -22,12 +22,12 @@ public abstract class KyHan {
 //       // KyHan.arrLKH.add(Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
 //    }
 
-    public KyHan(int ngay, double laiSuat, double soTien) {
-        this.ngay = ngay;
+    public KyHan(double laiSuat) {
         this.laiSuat = laiSuat;
-        this.soTien = soTien;
     }
-
+    public KyHan(){
+        
+    }
     /**
      * @return the ngay
      */
@@ -70,7 +70,7 @@ public abstract class KyHan {
         this.soTien = soTien;
     }
 
-    public abstract double tinhTienLai(LocalDate d);
+    public abstract double tinhTienLai();
 
     public abstract LocalDate tinhNgayDaoHan(LocalDate d);
 
@@ -79,11 +79,9 @@ public abstract class KyHan {
     /**
      * @return the arrLKH
      */
-    public static ArrayList<KyHan> getArrLKH() {
-        return arrLKH;
+    public static List<KyHan> getArrLKH() {
+        return KyHan.arrLKH;
     }
-    
     public abstract String getTen();
-    public void hello(){};
-    
+    public abstract String toString();
 }

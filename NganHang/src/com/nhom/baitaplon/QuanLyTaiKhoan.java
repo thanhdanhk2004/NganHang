@@ -141,7 +141,7 @@ public class QuanLyTaiKhoan {
         if (tkkkh != null) {
             tienLai += tkkkh.tinhTienLai(0.2);
             for (TaiKhoanCoKyHan i : tkkkh.getQuanDanhSachTaiKhoanCoKyHan()) {
-                tienLai += i.getThongTinKyHan().tinhTienLai(i.getNgayDangKy());
+                tienLai += i.getThongTinKyHan().tinhTienLai();
             }
         }
         return tienLai;
@@ -258,7 +258,6 @@ public class QuanLyTaiKhoan {
             int dem = 0;
             while(file.hasNext()){
                 s = file.nextLine();
-                //System.out.println(s);
                 if(s == "")
                     break;
                 else{
@@ -266,7 +265,6 @@ public class QuanLyTaiKhoan {
                     if(str[5].trim().equalsIgnoreCase("tai khoan co ky han")){
                         TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
                         TaiKhoanCoKyHan tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh2);
-                        System.out.print(tkckh.getNgaySinh());
                         tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
                     }
                     else{

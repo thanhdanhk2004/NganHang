@@ -13,12 +13,14 @@ import java.time.LocalDate;
 public class KyHanMotTuan extends KyHan{
     
     private String ten = "Kỳ hạn một tuần";
-    public KyHanMotTuan(double soTien) {
-        super(7, 0.02, soTien);
+    public KyHanMotTuan(double laiSuat) {
+        super(0.02);
     }
-    
+    public KyHanMotTuan(){
+        
+    }
     @Override
-    public double tinhTienLai(LocalDate d) {
+    public double tinhTienLai() {
         return this.getSoTien()*this.getLaiSuat()*7/360;
     }
     @Override
@@ -31,8 +33,12 @@ public class KyHanMotTuan extends KyHan{
         System.out.print("+ Loại kỳ hạn: Kỳ hạn một tuần.\n+ Lãi suất: 2%/năm.\n");
     }
     
-    @Override
     public String getTen() {
         return this.ten;
     }
+    @Override
+    public String toString() {
+        return "KyHanMotTuan";
+    }
+    
 }

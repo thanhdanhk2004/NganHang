@@ -37,7 +37,7 @@ public class NganHang {
      */
     public static void main(String[] args) throws FileNotFoundException {
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
-        KyHan.getArrLKH().addAll( Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
+        KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(2), new KyHanMotThang(5.5),new KyHanSauThang(7.5),new KyHanMotNam(7.9)));
         qltk.docDuLieuKhachHang();
         int choice;
         do {
@@ -50,10 +50,12 @@ public class NganHang {
                     + ">>Bạn chọn: ");
             switch (choice) {
                 case 1 -> {
-                    
-                    for (TaiKhoan i : qltk.getQuanLyTaiKhoan()) {
-                        TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) i;
-                        tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().stream().forEach(h -> h.hienThi());
+                    System.out.print("+ Nhập vào số cccd của bạn:");
+                    String soCCCD = CauHinh.SC.nextLine();
+                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
+                    if(tkkkh != null){
+                        qltk.moTaiKhoanCoKyHan(tkkkh);
+                        tkkkh.getQuanDanhSachTaiKhoanCoKyHan().stream().forEach(h->h.hienThi());
                     }
                     break;
                 }

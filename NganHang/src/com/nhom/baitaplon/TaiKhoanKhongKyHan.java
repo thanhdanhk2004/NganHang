@@ -248,9 +248,9 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
                         this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.soTaiKhoan, this.matKhau, this.soTienGui);
                 if(this.trangThai == true)
-                    xuatFile.printf("Không bị khóa");
+                    xuatFile.printf("true");
                 else
-                    xuatFile.printf("Bị khóa");
+                    xuatFile.printf("false");
             }
         } catch (IOException ex) {
             Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
