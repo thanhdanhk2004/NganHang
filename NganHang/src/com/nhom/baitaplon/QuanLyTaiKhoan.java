@@ -35,7 +35,8 @@ public class QuanLyTaiKhoan {
 
     public TaiKhoan timKiem(String s) {
         for (TaiKhoan i : this.quanLyTaiKhoan) {
-            if (i instanceof TaiKhoanKhongKyHan x) {
+            if (i instanceof TaiKhoanKhongKyHan) {
+                TaiKhoanKhongKyHan x = (TaiKhoanKhongKyHan) i;
                 if (x.getSoCCCD().equalsIgnoreCase(s) || x.getSoTaiKhoan().equalsIgnoreCase(s)) {
                     return i;
                 }
@@ -47,16 +48,16 @@ public class QuanLyTaiKhoan {
     public void moTaiKhoan(String s) {
         TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
         tkkkh.moTaiKhoan();
+        tkkkh.setSoCCCD(s);
         this.quanLyTaiKhoan.add(tkkkh);
         System.out.print("+ Mở tài khoản thành công.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
         tkkkh.suaThongTin();
         tkkkh.ghiThongTinVaoFile();
     }
-
-    public void moTaiKhoan(TaiKhoanKhongKyHan tkkkh) {
+    
+    public TaiKhoanCoKyHan layDuLieuTuTaiKhoanKhongKyHan(TaiKhoanKhongKyHan tkkkh){
         TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
-        tkckh.moTaiKhoan();
         tkckh.setHoTen(tkkkh.getHoTen());
         tkckh.setSoCCCD(tkkkh.getSoCCCD());
         tkckh.setGioiTinh(tkkkh.getGioiTinh());
@@ -66,7 +67,13 @@ public class QuanLyTaiKhoan {
         tkckh.setNgaySinh(tkkkh.getNgaySinh());
         tkckh.setSoTienGui(0);
         tkckh.setMatKhau(tkkkh.getMatKhau());
-        tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
+        return tkckh;
+    }
+    
+    public void moTaiKhoan(TaiKhoanKhongKyHan tkkkh) {
+        TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
+        tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh);
+        tkckh.moTaiKhoan();
         System.out.print("+ Mo tai khoan thanh cong.\n");
         this.hienThiThongTinTaiKhoanKhachHang(tkckh);
         tkckh.ghiThongTinVaoFile();
@@ -89,7 +96,12 @@ public class QuanLyTaiKhoan {
     }
 
     public void hienThiThongTin() {
-        this.quanLyTaiKhoan.stream().forEach(h -> h.hienThi());
+        int dem = 0;
+        for(TaiKhoan i: this.quanLyTaiKhoan){
+            TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) i;
+            System.out.printf("\n\t\t Thông tin của khách hàng %s\n", tkkkh.getHoTen());
+            i.hienThi();
+        }
     }
 
     public List<TaiKhoan> locTaiKhoanTheoTien() {
@@ -246,18 +258,19 @@ public class QuanLyTaiKhoan {
             int dem = 0;
             while(file.hasNext()){
                 s = file.nextLine();
-                System.out.println(s);
+                //System.out.println(s);
                 if(s == "")
                     break;
                 else{
                     String str[] = s.split(",");
-                    if(str[5].equalsIgnoreCase("Tài khoảng có kỳ hạn")){
+                    if(str[5].trim().equalsIgnoreCase("tai khoan co ky han")){
                         TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
-                        this.moTaiKhoan(tkkkh2);
+                        TaiKhoanCoKyHan tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh2);
+                        System.out.print(tkckh.getNgaySinh());
+                        tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
                     }
                     else{
                         TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
-                        
                         tkkkh.setHoTen(str[dem++].trim());
                         tkkkh.setSoCCCD(str[dem++].trim());
                         tkkkh.setNgaySinh(LocalDate.parse(str[dem++].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
@@ -267,6 +280,10 @@ public class QuanLyTaiKhoan {
                         tkkkh.setSoTaiKhoan(str[++dem].trim());
                         tkkkh.setMatKhau(Integer.parseInt(str[++dem].trim()));
                         tkkkh.setSoTienGui(Double.parseDouble(str[++dem].trim()));
+                        if(str[++dem].trim().equalsIgnoreCase("true"))
+                            tkkkh.setTrangThai(true);
+                        else
+                            tkkkh.setTrangThai(false);
                         this.quanLyTaiKhoan.add(tkkkh);
                     }
                 }

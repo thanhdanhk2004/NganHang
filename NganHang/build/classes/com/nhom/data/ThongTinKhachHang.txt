@@ -1,3 +1,10 @@
-1, 1, 01/01/2004, 1, Nam, Tài khoảng không kỳ hạn, 31/12/2023, 010120042316, 169029, 0.000
-ă, ă, 01/01/2004, 1, Nam, Tài khoảng có kỳ hạn, 31/12/2023, 010120043659, 648076, 0.000, 30/06/2024
-LÊ THANH DÂN, 1, 01/01/2004, 1, Nam, Tài khoảng không kỳ hạn, 01/01/2024, 010120046557, 12345, 0.000
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan khong ky han, 31/12/2022, 010120042316, 169029, 10.000, true
+TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tai khoan khong ky han, 31/12/2023, 010120043659, 648076, 30.000, true
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan khong ky han, 12/01/2023, 010120046557, 12345, 50.000, true
+HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tai khoan khong ky han, 31/12/2023, 010120042316, 169029, 10000, true
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan co ky han, 12/01/2023, 010120046557, 12345, 50.000, true
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan co ky han, 12/01/2023, 010120046557, 12345, 50.000, true
+TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tai khoan co ky han, 31/12/2023, 010120043659, 648076, 300000.000, false
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan co ky han, 31/12/2022, 010120042316, 169029, 1000000.000, true
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan co ky han, 31/12/2022, 010120042316, 169029, 1000000, true
+TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tai khoan khong ki han, 12/07/2022, 230120021245, 124578, 700000, true

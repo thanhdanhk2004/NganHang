@@ -6,28 +6,38 @@
 package nganhang;
 
 import com.nhom.baitaplon.CauHinh;
+import com.nhom.baitaplon.KyHan;
+import com.nhom.baitaplon.KyHanMotNam;
+import com.nhom.baitaplon.KyHanMotThang;
+import com.nhom.baitaplon.KyHanMotTuan;
+import com.nhom.baitaplon.KyHanSauThang;
 import com.nhom.baitaplon.QuanLyTaiKhoan;
+import com.nhom.baitaplon.TaiKhoan;
+import com.nhom.baitaplon.TaiKhoanCoKyHan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  *
  * @author add
  */
 public class NganHang {
-     
-    public static void khoangTrang(){
-        for(int i=0;i<3;i++){
+
+    public static void khoangTrang() {
+        for (int i = 0; i < 3; i++) {
             System.out.println();
         }
     }
+
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-   public static void main(String[] args) throws FileNotFoundException {
-        
+    public static void main(String[] args) throws FileNotFoundException {
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
+        KyHan.getArrLKH().addAll( Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
         qltk.docDuLieuKhachHang();
         int choice;
         do {
@@ -41,20 +51,24 @@ public class NganHang {
             switch (choice) {
                 case 1 -> {
                     
+                    for (TaiKhoan i : qltk.getQuanLyTaiKhoan()) {
+                        TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) i;
+                        tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().stream().forEach(h -> h.hienThi());
+                    }
                     break;
                 }
                 case 2 -> {
                     System.out.print("+ Nhập vào số cccd của bạn:");
                     String soCCCD = CauHinh.SC.nextLine();
-                    if (qltk.timKiem(soCCCD) != null) {
-                        TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
-                        System.out.print("+ Tài khoản đã tồn tại!\n");
-                    } else {
+                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
+                    if (tkkkh == null) {
                         qltk.moTaiKhoan(soCCCD);
+                    } else {
+                        System.out.print("+ Tài khoản đã tồn tại!\n");
                     }
                     break;
                 }
-                
+
                 case 3 -> {
                     qltk.hienThiThongTin();
                     CauHinh.SC.nextLine();
@@ -77,5 +91,5 @@ public class NganHang {
             }
         } while (choice != 4);
     }
-    
+
 }

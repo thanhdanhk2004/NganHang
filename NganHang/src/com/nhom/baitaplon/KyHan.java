@@ -18,11 +18,9 @@ public abstract class KyHan {
     private int ngay;
     private double laiSuat;
     private double soTien;
-    
-    {
-        KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
-        
-    }
+//    {
+//       // KyHan.arrLKH.add(Arrays.asList(new KyHanMotTuan(0), new KyHanMotThang(0), new KyHanSauThang(0), new KyHanMotNam(0)));
+//    }
 
     public KyHan(int ngay, double laiSuat, double soTien) {
         this.ngay = ngay;

@@ -7,8 +7,11 @@ package com.nhom.baitaplon;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  *
@@ -141,4 +144,24 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         this.thongTinKyHan = thongTinKyHan;
     }
     
+    public TaiKhoanCoKyHan moTaiKhoanTuFile(String str[]){
+        TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
+        int dem=0;
+        System.out.print(Arrays.toString(str));
+        tkckh.setHoTen(str[dem++].trim());
+        tkckh.setSoCCCD(str[dem++].trim());
+        tkckh.setNgaySinh(LocalDate.parse(str[dem++].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+        tkckh.setQueQuan(str[dem++].trim());
+        tkckh.setGioiTinh(str[dem++].trim());
+        tkckh.setNgayDangKy(LocalDate.parse(str[++dem].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+        tkckh.setSoTaiKhoan(str[++dem].trim());
+        tkckh.setMatKhau(Integer.parseInt(str[++dem].trim()));
+        tkckh.setSoTienGui(Double.parseDouble(str[++dem].trim()));
+        if (str[++dem].trim().equalsIgnoreCase("true"))
+            tkckh.setTrangThai(true);
+        else
+            tkckh.setTrangThai(false);
+        //tkckh.hienThi();
+        return tkckh;
+    }
 }

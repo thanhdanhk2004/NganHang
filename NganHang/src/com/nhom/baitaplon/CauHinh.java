@@ -75,8 +75,8 @@ public class CauHinh {
         int choice;
         String gt = "Khác";
         do {
-            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
-
+            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n- Nhập vào lựa chọn của bạn:");
+            
             switch (choice) {
                 case 1 -> gt = "Nam";
                 case 2 -> gt = "Nữ";

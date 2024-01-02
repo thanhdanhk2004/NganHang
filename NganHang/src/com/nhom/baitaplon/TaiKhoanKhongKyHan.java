@@ -27,7 +27,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     private String gioiTinh;
     private String soCCCD;
     private LocalDate ngaySinh;
-    private double soTienGui = 0;
+    private double soTienGui = 2000000;
     private int matKhau;
     private LocalDate ngayDangKy = LocalDate.now();
     private String soTaiKhoan;
@@ -187,7 +187,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         this.queQuan = CauHinh.SC.nextLine();
         int choice;
         do {
-            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n");
+            choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n- Nhập lựa chọn của bạn:");
 
             switch (choice) {
                 case 1:
@@ -205,7 +205,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             }
         } while (choice != 1 && choice != 2 && choice != 3);
         this.matKhau = (int) (Math.random() * (999999 - 100000 + 1) + 100000);
-        this.soTaiKhoan = String.format("%s%d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), TaiKhoanKhongKyHan.dem++);
+        this.soTaiKhoan = String.format("%s%04d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), TaiKhoanKhongKyHan.dem++);
+        this.trangThai = true;
         return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
     }
 
@@ -218,7 +219,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             System.out.print("+ Trạng thái: Không bị khóa.\n");
         }
         else
-            System.out.print("+ Trạng thái: Có kỳ hạn.\n");
+            System.out.print("+ Trạng thái: Bị khóa.\n");
     }
 
     @Override
