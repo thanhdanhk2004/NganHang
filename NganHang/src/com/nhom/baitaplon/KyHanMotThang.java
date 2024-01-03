@@ -10,34 +10,46 @@ import java.time.LocalDate;
  *
  * @author add
  */
-public class KyHanMotThang extends KyHan{
-    
-    private String ten = "Kỳ hạn một tháng";
-    public KyHanMotThang(double laiSuat) {
-        super(0.05);
+public class KyHanMotThang extends KyHan {
+
+    private final String ten = "Kỳ hạn một tháng";
+    private static final double laiSuat = 0.05;
+
+    public KyHanMotThang() {
     }
-    public KyHanMotThang(){
-        
+
+    /**
+     * @return the ten
+     */
+    public String getTen() {
+        return ten;
     }
+
+    /**
+     * @return the laiSuat
+     */
+    public static double getLaiSuat() {
+        return laiSuat;
+    }
+
     @Override
     public double tinhTienLai() {
-        return this.getSoTien()*this.getLaiSuat()*30/360;
+        return this.getSoTien() * KyHanMotThang.getLaiSuat() * 30 / 360;
     }
+
     @Override
     public LocalDate tinhNgayDaoHan(LocalDate d) {
-       return d.plusMonths(1);
+        return d.plusMonths(1);
     }
+
     @Override
     public void hienThiThongTinKyHan() {
-        System.out.print("+ Loại kỳ hạn: Kỳ hạn một tháng.\n+ Lãi suất: 5%/năm.\n");
+        System.out.printf("+ Loại kỳ hạn: %s.\n+ Lãi suất: %f%/năm.\n", this.ten, KyHanMotThang.laiSuat * 100);
     }
-    
 
-    public String getTen() {
-        return this.ten;
-    }
     @Override
     public String toString() {
         return "KyHanMotThang";
     }
+
 }

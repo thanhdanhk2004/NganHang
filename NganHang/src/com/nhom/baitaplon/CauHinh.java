@@ -14,20 +14,32 @@ import java.util.Scanner;
  * @author add
  */
 public class CauHinh {
+
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
-    
+
+    public static int menu(String prom) {
+        System.out.print(prom);
+        String choice = CauHinh.SC.nextLine();
+        if (choice.matches("[0-9]+")) {
+            return Integer.parseInt(choice);
+        } else {
+            return 0;
+        }
+
+    }
+
     public static String nhapHoTen() {
         String ten;
         do {
             System.out.print("+ Nhập họ tên: ");
             ten = CauHinh.SC.nextLine().toUpperCase();
-            if (!ten.matches("[A-Za-z]")) {
+            if (!ten.matches("[A-Za-z]+")) {
                 System.out.println("\nTên chỉ có thể chứa chữ cái! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!ten.matches("[A-Za-z]"));
+        } while (!ten.matches("[A-Za-z]+"));
         return ten;
     }
 
@@ -62,11 +74,11 @@ public class CauHinh {
         do {
             System.out.print("+ Nhập vào quê quán: ");
             qq = CauHinh.SC.nextLine();
-            if (!qq.matches("[A-Za-z]")) {
+            if (!qq.matches("[A-Za-z]+")) {
                 System.out.println("\nQuê quán chỉ bao gồm chữ cái! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!qq.matches("[A-Za-z]"));
+        } while (!qq.matches("[A-Za-z]+"));
         return qq;
     }
 
@@ -75,11 +87,14 @@ public class CauHinh {
         String gt = "Khác";
         do {
             choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n- Nhập vào lựa chọn của bạn:");
-            
+
             switch (choice) {
-                case 1 -> gt = "Nam";
-                case 2 -> gt = "Nữ";
-                case 3 -> gt = "Khác";
+                case 1 ->
+                    gt = "Nam";
+                case 2 ->
+                    gt = "Nữ";
+                case 3 ->
+                    gt = "Khác";
                 default -> {
                     System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
                     CauHinh.SC.nextLine();
@@ -101,16 +116,37 @@ public class CauHinh {
         } while (mk.length() != 6 || !mk.matches("[0-9]+"));
         return Integer.parseInt(mk);
     }
-    
-    public static int menu(String prom) {
-        System.out.print(prom);
-        String choice = CauHinh.SC.nextLine();
-        if (choice.matches("[0-9]+")) {
-            return Integer.parseInt(choice);
-        }
-        else
-            return 0;
 
+    public static String nhapSTK() {
+        String stk;
+        do {
+            System.out.print("+ Nhập số tài khoản: ");
+            stk = CauHinh.SC.nextLine();
+            if (!stk.matches("[0-9]+") || stk.length() != 10) {
+                System.out.println("\nCăn cước công dân bao gồm 10 chữ số! Nhấn Enter để nhập lại.\n");
+                CauHinh.SC.nextLine();
+            }
+        } while (!stk.matches("[0-9]+") || stk.length() != 10);
+        return stk;
     }
-
+    public static double nhapSoTien() {
+        String soTien;
+        double st = 0;
+        do {
+            System.out.print("+ Nhập số tiền(hạn mức 1 tỷ): ");
+            soTien = CauHinh.SC.nextLine();
+            if (!soTien.matches("[0-9]+\\.[0-9]+") || soTien.length() >= 9) {
+                System.out.println("\nTiền chỉ nhận số thực! Nhấn Enter để nhập lại.\n");
+                CauHinh.SC.nextLine();
+            }
+            else {
+                st = Double.parseDouble(soTien);
+                if (st <= 0 || st > 1000000000) {
+                    System.out.println("\nHạn mức chuyển tiền là 1 tỷ! Nhấn Enter để nhập lại.\n");
+                    CauHinh.SC.nextLine();
+                }
+            }
+        } while (!soTien.matches("[0-9]+\\.[0-9]+") || st <= 0 || st > 1000000000);
+        return st;
+    }
 }

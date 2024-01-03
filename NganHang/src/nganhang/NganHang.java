@@ -6,17 +6,9 @@
 package nganhang;
 
 import com.nhom.baitaplon.CauHinh;
-import com.nhom.baitaplon.KyHan;
-import com.nhom.baitaplon.KyHanMotNam;
-import com.nhom.baitaplon.KyHanMotThang;
-import com.nhom.baitaplon.KyHanMotTuan;
-import com.nhom.baitaplon.KyHanSauThang;
 import com.nhom.baitaplon.QuanLyTaiKhoan;
-import com.nhom.baitaplon.TaiKhoan;
-import com.nhom.baitaplon.TaiKhoanCoKyHan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 
 /**
  *
@@ -35,52 +27,95 @@ public class NganHang {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
+
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
-        KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(2), new KyHanMotThang(5.5),new KyHanSauThang(7.5),new KyHanMotNam(7.9)));
-        qltk.docDuLieuKhachHang();
+        //qltk.docDuLieuKhachHang();
         int choice;
         do {
             choice = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
                     + "1) Đăng nhập.\n"
-                    + "2) Mở tài khoản ngân hàng.\n"
-                    + "3) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
-                    + "4) Thoát chương trình.\n"
+                    + "2) Đăng Ký.\n"
+                    + "3) Thoát chương trình.\n"
                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                     + ">>Bạn chọn: ");
             switch (choice) {
                 case 1 -> {
-                    System.out.print("+ Nhập vào số cccd của bạn:");
-                    String soCCCD = CauHinh.SC.nextLine();
-                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
-                    if(tkkkh != null){
-                        qltk.moTaiKhoanCoKyHan(tkkkh);
-                        for(var i: tkkkh.getQuanDanhSachTaiKhoanCoKyHan()){
-                            i.hienThi();
-                        }
+                    TaiKhoanKhongKyHan tkkkh = qltk.dangNhap();
+                    if (tkkkh != null) {
+                        int choice1;
+                        do {
+                            choice1 = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
+                                    + "1) Nạp tiền.\n"
+                                    + "2) Rút tiền.\n"
+                                    + "3) Mở tài khoản ngân hàng có kỳ hạn.\n"
+                                    + "4) Tra cứu danh sách tài khoản.\n"
+                                    + "5) Tra cứu khách hàng.\n"
+                                    + "6) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
+                                    + "7) Đăng xuất.\n"
+                                    + "======== MỜI BẠN LỰA CHỌN =========\n"
+                                    + ">>Bạn chọn: ");
+                            switch (choice1) {
+                                case 1 -> {
+                                    break;
+                                }
+                                case 2 -> {
+                                    int choice2;
+                                    do {
+                                        choice2 = CauHinh.menu("=== LỰA CHỌN NƠI RÚT TIỀN ===\n"
+                                                + "1) Rút từ tài khoản chính.\n"
+                                                + "2) Rút từ tài khoản có kỳ hạn.\n"
+                                                + "3) Thoát\n"
+                                                + ">>Bạn chọn: ");;
+                                        switch (choice2) {
+                                            case 1 -> {
+                                                tkkkh.rutTien(CauHinh.nhapSoTien());
+                                                break;
+                                            }
+                                            case 2 -> {
+                                                tkkkh.rutTienTaiKhoanKhongKyHan();
+                                                break;
+                                            }
+                                            case 3 -> {
+                                                break;
+                                            }
+                                            default -> {
+                                                System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
+                                                CauHinh.SC.nextLine();
+                                            }
+                                        }
+                                    } while (choice2 != 3);
+                                    break;
+                                }
+                                case 3 -> {
+                                    break;
+                                }
+                                case 4 -> {
+                                    break;
+                                }
+                                case 5 -> {
+                                    break;
+                                }
+                                case 6 -> {
+                                    break;
+                                }
+                                case 7 -> {
+                                    break;
+                                }
+                                default -> {
+                                    System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
+                                    CauHinh.SC.nextLine();
+                                    khoangTrang();
+                                }
+                            }
+                        } while (choice != 7);
                     }
                     break;
                 }
                 case 2 -> {
-                    System.out.print("+ Nhập vào số cccd của bạn:");
-                    String soCCCD = CauHinh.SC.nextLine();
-                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
-                    if (tkkkh == null) {
-                        qltk.moTaiKhoan(soCCCD);
-                    } else {
-                        System.out.print("+ Tài khoản đã tồn tại!\n");
-                    }
+                    qltk.moTaiKhoan();
                     break;
                 }
-
                 case 3 -> {
-                    qltk.hienThiThongTin();
-                    CauHinh.SC.nextLine();
-                    System.out.print("\n* Nhấn Enter để tiếp tục.\n");
-                    CauHinh.SC.nextLine();
-                    khoangTrang();
-                    break;
-                }
-                case 4 -> {
                     System.out.println("\nCảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!");
                     khoangTrang();
                     break;
@@ -90,9 +125,8 @@ public class NganHang {
                     CauHinh.SC.nextLine();
                     khoangTrang();
                 }
-                
             }
-        } while (choice != 4);
+        } while (choice != 3);
     }
 
 }

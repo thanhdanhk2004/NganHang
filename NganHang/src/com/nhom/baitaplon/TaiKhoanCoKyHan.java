@@ -7,112 +7,42 @@ package com.nhom.baitaplon;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
  * @author add
  */
 public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
-    private LocalDate ngayDaoHan = LocalDate.now();
+
     private KyHan thongTinKyHan;
-    private String loaiKyHan;
-    
-    public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
+    private double soTienTietKiem;
+    private LocalDate ngayTao = LocalDate.now();
+
+    public TaiKhoanCoKyHan(KyHan thongTinKyHan, double soTienTietKiem) {
         this.thongTinKyHan = thongTinKyHan;
+        this.soTienTietKiem = soTienTietKiem;
     }
-    public TaiKhoanCoKyHan(){};
-    public LocalDate getNgayDaoHan() {
-        return ngayDaoHan;
+
+    public TaiKhoanCoKyHan() {
     }
 
     /**
-     * @param ngayDaoHan the ngayDaoHan to set
+     * @return the soTienTietKiem
      */
-    public void setNgayDaoHan(LocalDate ngayDaoHan) {
-        this.ngayDaoHan = ngayDaoHan;
+    public double getSoTienTietKiem() {
+        return soTienTietKiem;
     }
 
     /**
-     * @return the loaiKyHan
+     * @param soTienTietKiem the soTienTietKiem to set
      */
-    public String getLoaiKyHan() {
-        return loaiKyHan;
-    }
-
-    /**
-     * @param loaiKyHan the loaiKyHan to set
-     */
-    public void setLoaiKyHan(String loaiKyHan) {
-        this.loaiKyHan = loaiKyHan;
-    }
-   
-    @Override
-    public TaiKhoanCoKyHan moTaiKhoan(){
-        try {
-            int choice;
-            System.out.println("=== LOẠI KỲ HẠN ===");
-            int i;
-            for (i = 0; i < KyHan.getArrLKH().size(); i++) {
-                System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
-            }
-            System.out.print("- Bạn muốn chọn loại kỳ hạn nào:");
-            String ch = CauHinh.SC.nextLine();
-            if (ch.matches("[0-9]+")) {
-                choice = Integer.parseInt(ch);
-            } else {
-                choice = 0;
-            }
-            
-            String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
-            Class c = Class.forName(classPath);
-            KyHan kyHan = (KyHan) c.getConstructor().newInstance();
-            this.thongTinKyHan = kyHan;
-            this.ngayDaoHan = this.thongTinKyHan.tinhNgayDaoHan(this.ngayDaoHan);
-            return new TaiKhoanCoKyHan(kyHan);
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException ex) {
-            Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public void hienThi() {
-        super.hienThi();
-        getThongTinKyHan().hienThiThongTinKyHan();
-        System.out.printf("+ Ngày đáo hạn: %s", this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
-    }
-
-    @Override
-    public void ghiThongTinVaoFile() {
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
-            try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s, %s\n", this.getHoTen(), this.getSoCCCD(),
-                        this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui(),
-                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.thongTinKyHan.getTen());
-            }
-        } catch (IOException ex) {
-            //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                fileWriter.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    public void setSoTienTietKiem(double soTienTietKiem) {
+        this.soTienTietKiem = soTienTietKiem;
     }
 
     /**
@@ -128,5 +58,102 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     public void setThongTinKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
     }
-    
+
+    @Override
+    public TaiKhoanCoKyHan moTaiKhoan() {
+
+        try {
+            int choice;
+            do {
+                System.out.println("=== LOẠI KỲ HẠN ===");
+                int i;
+                for (i = 0; i < KyHan.getArrLKH().size(); i++) {
+                    System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
+                }
+                System.out.print("- Bạn muốn chọn loại kỳ hạn nào:");
+                String ch = CauHinh.SC.nextLine();
+                if (ch.matches("[0-9]+")) {
+                    choice = Integer.parseInt(ch);
+                } else {
+                    choice = 0;
+                }
+                if (choice >= 1 && choice <= KyHan.getArrLKH().size()) {
+                    String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
+                    Class c = Class.forName(classPath);
+                    KyHan kyHan = (KyHan) c.getConstructor().newInstance();
+                    return new TaiKhoanCoKyHan(kyHan, CauHinh.nhapSoTien());
+                } else {
+                    System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
+                    CauHinh.SC.nextLine();
+                }
+            } while (!(choice >= 1 && choice <= KyHan.getArrLKH().size()));
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException ex) {
+            Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public void hienThi() {
+        System.out.printf("+Số tiền gửi: %f\n+Tiền lãi khi đáo hạn: %f\n+ Ngày đáo hạn: %s\n", this.getSoTienGui(), this.tinhTienLai(), this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+        getThongTinKyHan().hienThiThongTinKyHan();
+        System.out.println("");
+    }
+
+    @Override
+    public void ghiThongTinVaoFile() {
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
+            try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s, %s\n", this.getHoTen(), this.getSoCCCD(),
+                        this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui(),
+                        this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.thongTinKyHan.getTen());
+            }
+        } catch (IOException ex) {
+            //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException ex) {
+                Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public boolean xacNhanRutTien() {
+        int choice;
+        do {
+            choice = CauHinh.menu("TOÀN BỘ TIỀN TIẾT KIỆM SẼ ĐƯỢC TÍNH THEO LÃI SUẤT KHÔNG KỲ HẠN.\n"
+                    + "Bạn có chắc muốn rút tiền không?"
+                    + "1) Tôi chắc chắn.\n"
+                    + "2) Hủy bỏ giao dịch.\n"
+                    + ">>Bạn chọn: ");
+            switch (choice) {
+                case 1 -> {
+                    return true;
+                }
+                case 2 -> {
+                    System.out.println("Giao dịch đã được hủy!");
+                    return false;
+                }
+                default -> {
+                    System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
+                    CauHinh.SC.nextLine();
+                }
+            }
+        } while (choice != 1 && choice != 2);
+        return false;
+    }
+
+    /**
+     * @return the ngayTao
+     */
+    public LocalDate getNgayTao() {
+        return ngayTao;
+    }
+
 }

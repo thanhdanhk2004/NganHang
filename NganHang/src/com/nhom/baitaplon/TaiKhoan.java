@@ -9,11 +9,19 @@ package com.nhom.baitaplon;
  * @author add
  */
 public interface TaiKhoan {
+
     public abstract TaiKhoan moTaiKhoan();
+
     public abstract void hienThi();
+
     public abstract void doiMatKhau();
+
     public abstract void ghiThongTinVaoFile();
-    public abstract int rutTien(double rutTien);
+
+    public abstract boolean rutTien(double rutTien);
+
     public abstract void goiTien(double soTien);
-    public abstract double tinhTienLai(double laiSuat);
+
+    public abstract double tinhTienLai();
+
 }
