@@ -25,7 +25,7 @@ public class KyHanSauThang extends KyHan{
     }
     @Override
     public LocalDate tinhNgayDaoHan(LocalDate d) {
-       return d.plusMonths(this.getNgay());
+       return d.plusMonths(6);
     }
 
     /**
@@ -33,7 +33,7 @@ public class KyHanSauThang extends KyHan{
      */
     @Override
     public void hienThiThongTinKyHan() {
-        System.out.print("+ Loại kỳ hạn: Kỳ hạn sáu tháng.\n+ Lãi suất: 5.5%.\n");
+        System.out.print("+ Loại kỳ hạn: Kỳ hạn sáu tháng.\n+ Lãi suất: 7.5%.\n");
     }
     
     public String getTen() {

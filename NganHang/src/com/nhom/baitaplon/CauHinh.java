@@ -17,7 +17,6 @@ public class CauHinh {
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
-    public static final int SLKH = 4;
     
     public static String nhapHoTen() {
         String ten;

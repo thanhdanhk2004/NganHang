@@ -25,7 +25,7 @@ public class KyHanMotThang extends KyHan{
     }
     @Override
     public LocalDate tinhNgayDaoHan(LocalDate d) {
-       return d.plusMonths(this.getNgay());
+       return d.plusMonths(1);
     }
     @Override
     public void hienThiThongTinKyHan() {

@@ -17,7 +17,6 @@ import com.nhom.baitaplon.TaiKhoanCoKyHan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Collection;
 
 /**
  *
@@ -55,7 +54,9 @@ public class NganHang {
                     TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(soCCCD);
                     if(tkkkh != null){
                         qltk.moTaiKhoanCoKyHan(tkkkh);
-                        tkkkh.getQuanDanhSachTaiKhoanCoKyHan().stream().forEach(h->h.hienThi());
+                        for(var i: tkkkh.getQuanDanhSachTaiKhoanCoKyHan()){
+                            i.hienThi();
+                        }
                     }
                     break;
                 }
@@ -89,7 +90,7 @@ public class NganHang {
                     CauHinh.SC.nextLine();
                     khoangTrang();
                 }
-
+                
             }
         } while (choice != 4);
     }

@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author add
@@ -53,14 +54,14 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     public void setLoaiKyHan(String loaiKyHan) {
         this.loaiKyHan = loaiKyHan;
     }
-
+   
     @Override
     public TaiKhoanCoKyHan moTaiKhoan(){
         try {
             int choice;
             System.out.println("=== LOẠI KỲ HẠN ===");
             int i;
-            for (i = 0; i < CauHinh.SLKH; i++) {
+            for (i = 0; i < KyHan.getArrLKH().size(); i++) {
                 System.out.printf("%d) %s\n", i + 1, KyHan.getArrLKH().get(i).getTen());
             }
             System.out.print("- Bạn muốn chọn loại kỳ hạn nào:");
@@ -70,6 +71,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             } else {
                 choice = 0;
             }
+            
             String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
             Class c = Class.forName(classPath);
             KyHan kyHan = (KyHan) c.getConstructor().newInstance();
@@ -95,11 +97,12 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s\n", this.getHoTen(), this.getSoCCCD(),
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s, %s\n", this.getHoTen(), this.getSoCCCD(),
                         this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui(),
-                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+                        this.ngayDaoHan.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        this.thongTinKyHan.getTen());
             }
         } catch (IOException ex) {
             //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +110,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             try {
                 fileWriter.close();
             } catch (IOException ex) {
-                //Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

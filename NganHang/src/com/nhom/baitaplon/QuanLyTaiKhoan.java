@@ -5,6 +5,7 @@
 package com.nhom.baitaplon;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class QuanLyTaiKhoan {
     public void setQuanLyTaiKhoan(List<TaiKhoan> quanLyTaiKhoan) {
         this.quanLyTaiKhoan = quanLyTaiKhoan;
     }
-
+    
+    public boolean flag = true;
     public TaiKhoan timKiem(String s) {
         for (TaiKhoan i : this.quanLyTaiKhoan) {
             if (i instanceof TaiKhoanKhongKyHan) {
@@ -55,7 +57,15 @@ public class QuanLyTaiKhoan {
         tkkkh.suaThongTin();
         tkkkh.ghiThongTinVaoFile();
     }
-    
+    //Hàm kiểm tra xem loại tài khoản có kỳ hạn này có trong danh sách hay chưa
+     public boolean kiemTraDaCoLoaiTaiKhoanCoKyHan(String s, TaiKhoanKhongKyHan tkkkh){
+        for(TaiKhoanCoKyHan i: tkkkh.getQuanDanhSachTaiKhoanCoKyHan()){
+            if(s.equalsIgnoreCase(i.getThongTinKyHan().getTen()))
+                return false;
+        }
+        return true;
+    }
+     
     public TaiKhoanCoKyHan layDuLieuTuTaiKhoanKhongKyHan(TaiKhoanKhongKyHan tkkkh){
         TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
         tkckh.setHoTen(tkkkh.getHoTen());
@@ -74,11 +84,30 @@ public class QuanLyTaiKhoan {
         TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
         tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh);
         tkckh.moTaiKhoan();
-        System.out.print("+ Mo tai khoan thanh cong.\n");
-        this.hienThiThongTinTaiKhoanKhachHang(tkckh);
-        tkckh.ghiThongTinVaoFile();
+        if(this.kiemTraDaCoLoaiTaiKhoanCoKyHan(tkckh.getThongTinKyHan().getTen(), tkkkh) == false)
+            this.flag = false;
+        if(this.flag == true){
+            this.hienThiThongTinTaiKhoanKhachHang(tkckh);
+            tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
+        }
+        //tkckh.ghiThongTinVaoFile();
     }
-
+    
+    public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh) {
+        boolean flag = true;
+        this.moTaiKhoan(tkkkh);
+        if (tkkkh.getSoTienGui() < 150000 || this.flag == false) {
+            if(tkkkh.getSoTienGui() < 150000)
+                System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ ===\n");
+            else
+                System.out.print("=== BẠN ĐÃ CÓ TÀI KHOẢN CÓ KỲ HẠN LOẠI NÀY ===\n");
+        }
+        else {
+            tkkkh.setSoTienGui(tkkkh.getSoTienGui() - 100000);
+            System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
+        }
+    }
+    
     public void hienThiThongTinTaiKhoanKhachHang(TaiKhoanKhongKyHan tkkkh) {
         System.out.print("\n\t\t Thông tin của bạn như sau\n");
         tkkkh.hienThi();
@@ -163,16 +192,7 @@ public class QuanLyTaiKhoan {
         }
     }
 
-    public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh) {
-        if (tkkkh.getSoTienGui() < 150000) {
-            System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ TÀI KHOẢN CÓ KỲ HẠN ===\n");
-        } else {
-            this.moTaiKhoan(tkkkh);
-            tkkkh.setSoTienGui(tkkkh.getSoTienGui() - 100000);
-            System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
-        }
-
-    }
+    
 
     // Hàm Tra cứu danh sách tài khoản của một khách hàng theo mã số khách hàng
     public void traCuuDanhSachKhachHang(String s) {
@@ -252,7 +272,7 @@ public class QuanLyTaiKhoan {
         return false;
     }
     
-    public void docDuLieuKhachHang() throws FileNotFoundException{
+    public void docDuLieuKhachHang() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
         try (Scanner file = new Scanner(CauHinh.DATA_FILE)) {
             String s;
             int dem = 0;
@@ -265,6 +285,12 @@ public class QuanLyTaiKhoan {
                     if(str[5].trim().equalsIgnoreCase("tai khoan co ky han")){
                         TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
                         TaiKhoanCoKyHan tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh2);
+                        String s1 = KyHan.getArrLKH().stream().filter(h->h.getTen().equalsIgnoreCase(str[11].trim())).findFirst().orElse(null).toString();
+                        String classPath = "com.nhom.baitaplon." + s;
+                        Class c = Class.forName(classPath);
+                        KyHan kyHan = (KyHan) c.getConstructor().newInstance();
+                        tkckh.setThongTinKyHan(kyHan);
+                        tkckh.setNgayDaoHan(tkckh.getThongTinKyHan().tinhNgayDaoHan(tkckh.getNgayDaoHan())); 
                         tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
                     }
                     else{
