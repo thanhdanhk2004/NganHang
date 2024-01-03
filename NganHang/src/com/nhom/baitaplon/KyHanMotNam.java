@@ -35,8 +35,8 @@ public class KyHanMotNam extends KyHan {
     ;
     
     @Override
-    public double tinhTienLai() {
-        return this.getSoTien() * KyHanMotNam.getLaiSuat();
+    public double tinhTienLai(Double soTien) {
+        return soTien * KyHanMotNam.getLaiSuat();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class KyHanMotNam extends KyHan {
 
     @Override
     public void hienThiThongTinKyHan() {
-        System.out.printf("+ Loại kỳ hạn: %s.\n+ Lãi suất: %f%/năm.\n", this.getTen(), KyHanMotNam.getLaiSuat() * 100);
+        System.out.printf("+ Loại kỳ hạn: %s.%n+ Lãi suất: %.2f%%/năm.%n", this.getTen(), KyHanMotNam.getLaiSuat() * 100);
     }
 
     @Override

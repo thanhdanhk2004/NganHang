@@ -5,6 +5,9 @@
 package com.nhom.baitaplon;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -57,6 +60,7 @@ public class QuanLyTaiKhoan {
             this.quanLyTaiKhoan.add(tkkkh);
             System.out.print("+ Mở tài khoản thành công.\n");
             this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
+            this.xacNhanDoiMatKhau(tkkkh);
             tkkkh.suaThongTin();
             tkkkh.ghiThongTinVaoFile();
         }
@@ -86,11 +90,18 @@ public class QuanLyTaiKhoan {
     }
 
     public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh) {
-        this.moTaiKhoan(tkkkh);
-        if (tkkkh.getSoTienGui() < 150000) {
+        
+        Double soTienGui = CauHinh.nhapSoTien();
+        if (tkkkh.getSoTienGui() < 150000 || soTienGui < 100000) {
             System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ ===\n");
         } else {
-            tkkkh.setSoTienGui(tkkkh.getSoTienGui() - 100000);
+            tkkkh.setSoTienGui(tkkkh.getSoTienGui() - soTienGui);
+            TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
+            tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh);
+            tkckh.setSoTienGui(soTienGui);
+            tkckh.moTaiKhoan();
+            this.hienThiThongTinTaiKhoanKhachHang(tkckh);
+            tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
             System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
         }
     }
@@ -98,8 +109,6 @@ public class QuanLyTaiKhoan {
     public void hienThiThongTinTaiKhoanKhachHang(TaiKhoanKhongKyHan tkkkh) {
         System.out.print("\n\t\t Thông tin của bạn như sau\n");
         tkkkh.hienThi();
-        System.out.printf("+ Mật khẩu: %d", tkkkh.getMatKhau());
-        this.xacNhanDoiMatKhau(tkkkh);
     }
 
     public void xacNhanDoiMatKhau(TaiKhoanKhongKyHan tkkkh) {
@@ -144,7 +153,7 @@ public class QuanLyTaiKhoan {
         return list;
     }
 
-    public void sapXepThongTinTheoTienGiamDan(List<TaiKhoan> list) {
+    public List<TaiKhoan> sapXepThongTinTheoTienGiamDan(List<TaiKhoan> list) {
         list.sort((var h1, var h2) -> {
             TaiKhoanKhongKyHan t1 = (TaiKhoanKhongKyHan) h1;
             TaiKhoanKhongKyHan t2 = (TaiKhoanKhongKyHan) h2;
@@ -157,6 +166,7 @@ public class QuanLyTaiKhoan {
             }
             return 0;
         });
+        return list;
     }
 
     // Ham xuat tien cua khach hang dua tren so tai khoan duoc cung cap
@@ -166,7 +176,7 @@ public class QuanLyTaiKhoan {
         if (tkkkh != null) {
             tienLai += tkkkh.tinhTienLai();
             for (TaiKhoanCoKyHan i : tkkkh.getQuanDanhSachTaiKhoanCoKyHan()) {
-                tienLai += i.getThongTinKyHan().tinhTienLai();
+                tienLai += i.getThongTinKyHan().tinhTienLai(i.getSoTienGui());
             }
         }
         return tienLai;
@@ -194,9 +204,9 @@ public class QuanLyTaiKhoan {
             if (tkkkh.getSoTaiKhoan().equals(s)) {
                 tkkkh.hienThi();
                 if (!tkkkh.getQuanDanhSachTaiKhoanCoKyHan().isEmpty()) {
-                    System.out.print("* Tài khoản của khách hàng " + tkkkh.getHoTen() + " có thêm " + tkkkh.getQuanDanhSachTaiKhoanCoKyHan().size() + "tài khoản có kỳ hạn.\n");
+                    System.out.print("* Tài khoản của khách hàng " + tkkkh.getHoTen() + " có thêm " + tkkkh.getQuanDanhSachTaiKhoanCoKyHan().size() + " tài khoản có kỳ hạn.\n");
                     for (TaiKhoanCoKyHan j : tkkkh.getQuanDanhSachTaiKhoanCoKyHan()) {
-                        j.getThongTinKyHan().hienThiThongTinKyHan();
+                        j.hienThi();
                     }
                 }
             }
@@ -253,22 +263,30 @@ public class QuanLyTaiKhoan {
             return tkkkh;
         }
     }
-
+    public String layClassPath(String s){
+        for(int i=0;i<KyHan.getArrLKH().size();i++){
+            if(KyHan.getArrLKH().get(i).getTen().equalsIgnoreCase(s))
+                return KyHan.getArrLKH().get(i).toString();
+        }
+        return "";
+    }
     public void docDuLieuKhachHang() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         try (Scanner file = new Scanner(CauHinh.DATA_FILE)) {
             String s;
             int dem = 0;
             while (file.hasNext()) {
                 s = file.nextLine();
-                if (s == "") {
+                
+                if (s.equals("")) {
                     break;
                 } else {
                     String str[] = s.split(",");
                     if (str[5].trim().equalsIgnoreCase("tai khoan co ky han")) {
                         TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
                         TaiKhoanCoKyHan tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh2);
-                        String s1 = KyHan.getArrLKH().stream().filter(h -> h.getTen().equalsIgnoreCase(str[11].trim())).findFirst().orElse(null).toString();
-                        String classPath = "com.nhom.baitaplon." + s;
+                        tkckh.setSoTienGui(Double.parseDouble(str[9].trim()));
+                        String s1 = layClassPath(str[11].trim());
+                        String classPath = "com.nhom.baitaplon." + s1;
                         Class c = Class.forName(classPath);
                         KyHan kyHan = (KyHan) c.getConstructor().newInstance();
                         tkckh.setThongTinKyHan(kyHan);
@@ -297,5 +315,34 @@ public class QuanLyTaiKhoan {
             file.close();
         }
     }
-
+    
+    public void ghiFileSauKhiXuLy() throws IOException{
+        PrintWriter printWriter = new PrintWriter(CauHinh.DATA_FILE);
+        for(TaiKhoan i:this.quanLyTaiKhoan){
+            if(i instanceof TaiKhoanKhongKyHan x){
+                printWriter.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f,", x.getHoTen(), x.getSoCCCD(),
+                        x.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        x.getQueQuan(), x.getGioiTinh(), x.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                        x.getSoTaiKhoan(), x.getMatKhau(), x.getSoTienGui());
+                if (x.isTrangThai() == true) {
+                    printWriter.printf("true\n");
+                } else {
+                    printWriter.printf("false\n");
+                }
+                for(TaiKhoanCoKyHan j:x.getQuanDanhSachTaiKhoanCoKyHan()){
+                    printWriter.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f,", x.getHoTen(), x.getSoCCCD(),
+                            x.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                            x.getQueQuan(), x.getGioiTinh(), x.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                            x.getSoTaiKhoan(), x.getMatKhau(), j.getSoTienGui());
+                    if (j.isTrangThai() == true) {
+                        printWriter.printf("true");
+                    } else {
+                        printWriter.printf("false");
+                    }
+                    printWriter.printf(", %s\n", j.getThongTinKyHan().getTen());
+                }
+            }
+        }
+        printWriter.close();
+    }
 }

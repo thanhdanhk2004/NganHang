@@ -6,9 +6,13 @@
 package nganhang;
 
 import com.nhom.baitaplon.CauHinh;
+import com.nhom.baitaplon.KyHan;
 import com.nhom.baitaplon.QuanLyTaiKhoan;
+import com.nhom.baitaplon.TaiKhoan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  *
@@ -21,20 +25,25 @@ public class NganHang {
             System.out.println();
         }
     }
-
+    public static QuanLyTaiKhoan khoiDong() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+        QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
+        CauHinh.ganKyHan();
+        qltk.docDuLieuKhachHang();
+        
+        return qltk;
+    }
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException {
-
-        QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
-        //qltk.docDuLieuKhachHang();
+    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        QuanLyTaiKhoan qltk = khoiDong();
+        
         int choice;
         do {
             choice = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
                     + "1) Đăng nhập.\n"
-                    + "2) Đăng Ký.\n"
+                    + "2) Đăng ký.\n"
                     + "3) Thoát chương trình.\n"
                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                     + ">>Bạn chọn: ");
@@ -56,6 +65,9 @@ public class NganHang {
                                     + ">>Bạn chọn: ");
                             switch (choice1) {
                                 case 1 -> {
+                                    Double soTien = CauHinh.nhapSoTien();
+                                    tkkkh.goiTien(soTien);
+                                    System.out.print("=== GỬI TIỀN THÀNH CÔNG ===\n");
                                     break;
                                 }
                                 case 2 -> {
@@ -65,17 +77,22 @@ public class NganHang {
                                                 + "1) Rút từ tài khoản chính.\n"
                                                 + "2) Rút từ tài khoản có kỳ hạn.\n"
                                                 + "3) Thoát\n"
-                                                + ">>Bạn chọn: ");;
+                                                + ">>Bạn chọn: ");
                                         switch (choice2) {
                                             case 1 -> {
-                                                tkkkh.rutTien(CauHinh.nhapSoTien());
+                                                boolean rt = tkkkh.rutTien(CauHinh.nhapSoTien());
+                                                if(rt == false)
+                                                    System.out.print("=== RÚT TIỀN THẤT BẠI ===\n");
+                                                else
+                                                    System.out.print("=== RÚT TIỀN THÀNH CÔNG ===\n");
                                                 break;
                                             }
                                             case 2 -> {
-                                                tkkkh.rutTienTaiKhoanKhongKyHan();
+                                                tkkkh.rutTienTaiKhoanCoKyHan();
                                                 break;
                                             }
                                             case 3 -> {
+                                                
                                                 break;
                                             }
                                             default -> {
@@ -87,18 +104,26 @@ public class NganHang {
                                     break;
                                 }
                                 case 3 -> {
+                                    qltk.moTaiKhoanCoKyHan(tkkkh);
                                     break;
                                 }
                                 case 4 -> {
+                                    qltk.traCuuDanhSachKhachHang(tkkkh.getSoTaiKhoan());
                                     break;
                                 }
                                 case 5 -> {
+                                    System.out.print("+ Nhập vào họ tên hoặc số tài khoản:");
+                                    String s = CauHinh.SC.nextLine();
+                                    qltk.traCuuTaiKhoan(s).stream().forEach(h->h.hienThi());
                                     break;
                                 }
                                 case 6 -> {
+                                    List<TaiKhoan> list = qltk.locTaiKhoanTheoTien();
+                                    list = qltk.sapXepThongTinTheoTienGiamDan(list);
                                     break;
                                 }
                                 case 7 -> {
+                                    System.out.print("=== ĐĂNG XUẤT THÀNH CÔNG ===\n");
                                     break;
                                 }
                                 default -> {
@@ -126,7 +151,7 @@ public class NganHang {
                     khoangTrang();
                 }
             }
-        } while (choice != 3);
+        }while (choice != 3);
     }
-
+    
 }

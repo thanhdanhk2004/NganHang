@@ -339,6 +339,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
 
     @Override
     public void goiTien(double soTien) {
+       
         this.soTienGui += soTien;
         System.out.printf("Bạn đã gửi %f đồng và tài khoản!\n", soTien);
     }
@@ -355,16 +356,16 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     @Override
     public double tinhTienLai() {
         int soNgayGui = (int) ChronoUnit.DAYS.between(this.ngayDangKy, LocalDate.now());
-        return this.soTienGui * TaiKhoanKhongKyHan.laiSuatKhongKyHan * soNgayGui / 360;
+        return (this.soTienGui * TaiKhoanKhongKyHan.laiSuatKhongKyHan * soNgayGui)*1.0 / 360;
     }
 
-    public void rutTienTaiKhoanKhongKyHan() {
+    public void rutTienTaiKhoanCoKyHan() {
         String choice;
         int ch;
         do {
             System.err.println("=== CHỌN TÀI KHOẢN MUỐN RÚT ===");
             for (int i = 0; i < this.quanDanhSachTaiKhoanCoKyHan.size(); i++) {
-                System.out.printf("Tài khoản %d", i + 1);
+                System.out.printf("Tài khoản %d\n", i + 1);
                 this.quanDanhSachTaiKhoanCoKyHan.get(i).hienThi();
             }
             System.out.print(">>Ban chọn tài khoản số: ");
@@ -377,7 +378,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             if (ch >= 1 && ch <= this.quanDanhSachTaiKhoanCoKyHan.size()) {
                 if(this.quanDanhSachTaiKhoanCoKyHan.get(ch).xacNhanRutTien()) {
                     TaiKhoanCoKyHan tkckh = this.quanDanhSachTaiKhoanCoKyHan.get(ch);
-                    this.soTienGui += (tkckh.getSoTienTietKiem() * TaiKhoanKhongKyHan.laiSuatKhongKyHan * (int) ChronoUnit.DAYS.between(tkckh.getNgayTao(), LocalDate.now()) / 360);
+                    this.soTienGui += (tkckh.getSoTienGui() * TaiKhoanKhongKyHan.laiSuatKhongKyHan * (int) ChronoUnit.DAYS.between(tkckh.getNgayTao(), LocalDate.now()) / 360);
                     this.quanDanhSachTaiKhoanCoKyHan.remove(ch);
                 }
             } else {

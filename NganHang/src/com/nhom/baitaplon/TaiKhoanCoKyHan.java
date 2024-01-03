@@ -20,34 +20,17 @@ import java.util.logging.Logger;
 public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     private KyHan thongTinKyHan;
-    private double soTienTietKiem;
+    
     private LocalDate ngayTao = LocalDate.now();
 
-    public TaiKhoanCoKyHan(KyHan thongTinKyHan, double soTienTietKiem) {
+    public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
-        this.soTienTietKiem = soTienTietKiem;
     }
 
     public TaiKhoanCoKyHan() {
     }
 
-    /**
-     * @return the soTienTietKiem
-     */
-    public double getSoTienTietKiem() {
-        return soTienTietKiem;
-    }
-
-    /**
-     * @param soTienTietKiem the soTienTietKiem to set
-     */
-    public void setSoTienTietKiem(double soTienTietKiem) {
-        this.soTienTietKiem = soTienTietKiem;
-    }
-
-    /**
-     * @return the thongTinKyHan
-     */
+    
     public KyHan getThongTinKyHan() {
         return thongTinKyHan;
     }
@@ -81,7 +64,8 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
                     String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
                     Class c = Class.forName(classPath);
                     KyHan kyHan = (KyHan) c.getConstructor().newInstance();
-                    return new TaiKhoanCoKyHan(kyHan, CauHinh.nhapSoTien());
+                    this.thongTinKyHan = kyHan;
+                    return new TaiKhoanCoKyHan(kyHan);
                 } else {
                     System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
                     CauHinh.SC.nextLine();
@@ -95,7 +79,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     @Override
     public void hienThi() {
-        System.out.printf("+Số tiền gửi: %f\n+Tiền lãi khi đáo hạn: %f\n+ Ngày đáo hạn: %s\n", this.getSoTienGui(), this.tinhTienLai(), this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+        System.out.printf("+ Số tiền gửi: %.3f\n+ Tiền lãi khi đáo hạn: %.3f\n+ Ngày đáo hạn: %s\n", this.getSoTienGui(), this.thongTinKyHan.tinhTienLai(this.getSoTienGui()), this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
         getThongTinKyHan().hienThiThongTinKyHan();
         System.out.println("");
     }
@@ -128,7 +112,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         int choice;
         do {
             choice = CauHinh.menu("TOÀN BỘ TIỀN TIẾT KIỆM SẼ ĐƯỢC TÍNH THEO LÃI SUẤT KHÔNG KỲ HẠN.\n"
-                    + "Bạn có chắc muốn rút tiền không?"
+                    + "Bạn có chắc muốn rút tiền không?\n"
                     + "1) Tôi chắc chắn.\n"
                     + "2) Hủy bỏ giao dịch.\n"
                     + ">>Bạn chọn: ");

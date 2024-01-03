@@ -7,6 +7,7 @@ package com.nhom.baitaplon;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,9 @@ public class CauHinh {
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
     public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
-
+    public static void ganKyHan(){
+        KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(), new KyHanMotThang(), new KyHanSauThang(), new KyHanMotNam()));
+    }
     public static int menu(String prom) {
         System.out.print(prom);
         String choice = CauHinh.SC.nextLine();
@@ -122,21 +125,21 @@ public class CauHinh {
         do {
             System.out.print("+ Nhập số tài khoản: ");
             stk = CauHinh.SC.nextLine();
-            if (!stk.matches("[0-9]+") || stk.length() != 10) {
-                System.out.println("\nCăn cước công dân bao gồm 10 chữ số! Nhấn Enter để nhập lại.\n");
+            if (!stk.matches("[0-9]+") || stk.length() != 12) {
+                System.out.println("\nSố tài khoản bao gồm 12 chữ số! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!stk.matches("[0-9]+") || stk.length() != 10);
+        } while (!stk.matches("[0-9]+") || stk.length() != 12);
         return stk;
     }
     public static double nhapSoTien() {
         String soTien;
         double st = 0;
         do {
-            System.out.print("+ Nhập số tiền(hạn mức 1 tỷ): ");
+            System.out.print("+ Nhập số tiền: ");
             soTien = CauHinh.SC.nextLine();
-            if (!soTien.matches("[0-9]+\\.[0-9]+") || soTien.length() >= 9) {
-                System.out.println("\nTiền chỉ nhận số thực! Nhấn Enter để nhập lại.\n");
+            if (!soTien.matches("[0-9]+(\\.|\\d)[0-9]+") || soTien.length() >= 9) {
+                System.out.println("\nSố tiền không hợp lệ! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
             else {

@@ -63,7 +63,7 @@ public abstract class KyHan {
         return KyHan.arrLKH;
     }
 
-    public abstract double tinhTienLai();
+    public abstract double tinhTienLai(Double soTien);
 
     public abstract LocalDate tinhNgayDaoHan(LocalDate d);
 
@@ -71,6 +71,7 @@ public abstract class KyHan {
 
     public abstract String getTen();
 
+    @Override
     public abstract String toString();
 
 }
