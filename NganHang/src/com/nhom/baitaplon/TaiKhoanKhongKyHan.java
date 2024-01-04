@@ -7,6 +7,8 @@ package com.nhom.baitaplon;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  *
@@ -277,15 +282,18 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng không kỳ hạn, %s, %s, %d, %.3f,", this.hoTen, this.soCCCD,
+                int matKhauMaHoa = Integer.parseInt(CauHinh.maHoaMatKhau(Integer.toString(this.getMatKhau())));
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoản không kỳ hạn, %s, %s, %d, %.3f,", this.hoTen, this.soCCCD,
                         this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.soTaiKhoan, this.matKhau, this.soTienGui);
+                        this.soTaiKhoan, matKhauMaHoa, this.soTienGui);
                 if (this.trangThai == true) {
                     xuatFile.printf("true");
                 } else {
                     xuatFile.printf("false");
                 }
+            } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ex) {
             Logger.getLogger(TaiKhoanKhongKyHan.class.getName()).log(Level.SEVERE, null, ex);

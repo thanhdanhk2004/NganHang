@@ -1,14 +1,15 @@
-NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan khong ky han, 31/12/2022, 010120042316, 169029, 10.000, true
-TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tai khoan khong ky han, 31/12/2023, 010120043659, 648076, 30.000, true
-LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan khong ky han, 12/01/2023, 271020046557, 012345, 50000000.000, true
-HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tai khoan khong ky han, 31/12/2023, 010120042316, 169029, 10000, true
-LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan co ky han, 12/01/2023, 271020046557, 012345, 50.000, true, Kỳ Hạn Một Tuần
-LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tai khoan co ky han, 12/01/2023, 271020046557, 012345, 50.000, true, Kỳ Hạn Một Tháng
-TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tai khoan co ky han, 31/12/2023, 010120043659, 648076, 300000.000, false, Kỳ Hạn Sáu Tháng
-NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan co ky han, 31/12/2022, 010120042316, 169029, 1000000.000, true, Kỳ Hạn Một Tháng
-NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tai khoan co ky han, 31/12/2022, 010120042316, 169029, 1000000, true, Kỳ Hạn Một Năm
-TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tai khoan khong ki han, 12/07/2022, 230120021245, 124578, 700000, true
-HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tai khoan co ky han, 31/12/2023, 010120042316, 169029, 10000, true, Kỳ Hạn Sáu Tháng
-TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tai khoan co ky han, 12/07/2022, 230120021245, 124578, 700000, true, Kỳ Hạn Một Tháng
-TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tai khoan co ky han, 12/07/2022, 230120021245, 124578, 700000, true, Kỳ Hạn Một Tuần
-1, 1, 01/01/2004, 1, Nam, Tài khoảng không kỳ hạn, 02/01/2024, 010120040000, 909788, 2000000.000,true
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tài khoản không kỳ hạn, 05/01/2024, 010120042316, UQwfBGOlezyPGJ4iwsahNA==, 10.000,true
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tài khoản có kỳ hạn, 05/01/2024, 010120042316, UQwfBGOlezyPGJ4iwsahNA==, 1000000.000,false, Kỳ hạn một tháng
+NGUYỄN VĂN A, 060204237841, 13/01/2001, Thành phố HCM, Nam, Tài khoản có kỳ hạn, 05/01/2024, 010120042316, UQwfBGOlezyPGJ4iwsahNA==, 1000000.000,false, Kỳ hạn một năm
+TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tài khoản không kỳ hạn, 05/01/2024, 010120043659, AYmPUU9kcer3oT3iUUSrXA==, 30.000,true
+TRẦN THỊ LỆ OANH, 017452874102, 11/12/2007, Quảng Nam, Nữ, Tài khoản có kỳ hạn, 05/01/2024, 010120043659, AYmPUU9kcer3oT3iUUSrXA==, 300000.000,false, Kỳ hạn sáu tháng
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tài khoản không kỳ hạn, 05/01/2024, 271020046557, BDbyasc9YNpJU8xw8jGkaQ==, 49899999.800,true
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tài khoản có kỳ hạn, 05/01/2024, 271020046557, BDbyasc9YNpJU8xw8jGkaQ==, 50.000,false, Kỳ hạn một tuần
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tài khoản có kỳ hạn, 05/01/2024, 271020046557, BDbyasc9YNpJU8xw8jGkaQ==, 50.000,false, Kỳ hạn một tháng
+LÊ THANH DÂN, 060204000596, 27/10/2004, Bình Thuận, Nam, Tài khoản có kỳ hạn, 05/01/2024, 271020046557, BDbyasc9YNpJU8xw8jGkaQ==, 100000.200,false, Kỳ hạn sáu tháng
+HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tài khoản không kỳ hạn, 05/01/2024, 010120042316, UQwfBGOlezyPGJ4iwsahNA==, 10000.000,true
+HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tài khoản có kỳ hạn, 05/01/2024, 010120042316, UQwfBGOlezyPGJ4iwsahNA==, 10000.000,false, Kỳ hạn sáu tháng
+TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản không kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 700000.000,true
+TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản có kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 700000.000,false, Kỳ hạn một tháng
+TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản có kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 700000.000,false, Kỳ hạn một tuần
+1, 1, 01/01/2004, 1, Nam, Tài khoản không kỳ hạn, 05/01/2024, 010120040000, UH4O5BHHqEd+DUUW4LYBcQ==, 2000000.000,true

@@ -8,10 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  *
@@ -90,12 +95,15 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoảng có kỳ hạn, %s, %s, %d, %.3f, %s, %s\n", this.getHoTen(), this.getSoCCCD(),
+                int matKhauMaHoa = Integer.parseInt(CauHinh.maHoaMatKhau(Integer.toString(this.getMatKhau())));
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoản có kỳ hạn, %s, %s, %d, %.3f, %s, %s\n", this.getHoTen(), this.getSoCCCD(),
                         this.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.getQueQuan(), this.getGioiTinh(), this.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                        this.getSoTaiKhoan(), this.getMatKhau(), this.getSoTienGui(),
+                        this.getSoTaiKhoan(), matKhauMaHoa, this.getSoTienGui(),
                         this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.thongTinKyHan.getTen());
+            } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ex) {
             //Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);

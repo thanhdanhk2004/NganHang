@@ -11,8 +11,14 @@ import com.nhom.baitaplon.QuanLyTaiKhoan;
 import com.nhom.baitaplon.TaiKhoan;
 import com.nhom.baitaplon.TaiKhoanKhongKyHan;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  *
@@ -25,18 +31,17 @@ public class NganHang {
             System.out.println();
         }
     }
-    public static QuanLyTaiKhoan khoiDong() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+    public static QuanLyTaiKhoan khoiDong() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
         QuanLyTaiKhoan qltk = new QuanLyTaiKhoan();
         CauHinh.ganKyHan();
         qltk.docDuLieuKhachHang();
-        
         return qltk;
     }
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         QuanLyTaiKhoan qltk = khoiDong();
         
         int choice;
@@ -124,6 +129,7 @@ public class NganHang {
                                 }
                                 case 7 -> {
                                     System.out.print("=== ĐĂNG XUẤT THÀNH CÔNG ===\n");
+                                    qltk.ghiFileSauKhiXuLy();
                                     break;
                                 }
                                 default -> {
@@ -152,6 +158,6 @@ public class NganHang {
                 }
             }
         }while (choice != 3);
+        //qltk.ghiFileSauKhiXuLy();
     }
-    
 }

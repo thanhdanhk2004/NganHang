@@ -9,7 +9,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Scanner;
-
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 /**
  *
  * @author add
@@ -151,5 +158,43 @@ public class CauHinh {
             }
         } while (!soTien.matches("[0-9]+\\.[0-9]+") || st <= 0 || st > 1000000000);
         return st;
+    }
+    public static String EncryptAndDecrypt(String matKhau, boolean flag) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        String SECRET_KEY = "HelloEveryoneIam";// 128, 192, 256 bit
+        SecretKeySpec skeySpec = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");// Tạo key mã hóa, giải mã
+        String original = matKhau;// Chuỗi gốc 
+        // Mã hóa
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");//Tạo đối tượng cripher các thông tin(thuật toán mã hóa/ Mode/ passding
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+        byte[] byteEncrypted = cipher.doFinal(original.getBytes());
+        String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
+        if(flag == flag)
+            return encrypted;
+        //Giải mã
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
+        String decrypted = new String(byteDecrypted);
+        return decrypted;
+    }
+    public static String maHoaMatKhau(String matKhau) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+        String khoaBiMat = "toitenlathanhdan";
+        SecretKeySpec skeySpec = new SecretKeySpec(khoaBiMat.getBytes(), "AES");
+        String original = matKhau;// Chuỗi gốc 
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");//Tạo đối tượng cripher các thông tin(thuật toán mã hóa/ Mode/ passding
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+        byte[] byteEncrypted = cipher.doFinal(original.getBytes());
+        return Base64.getEncoder().encodeToString(byteEncrypted);
+    }
+    public static String giaiMaMatKhau(String chuoiDaMaHoa) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+        String khoaBiMat = "toitenlathanhdan";// 128, 192, 256 bit
+        SecretKeySpec skeySpec = new SecretKeySpec(khoaBiMat.getBytes(), "AES");// Tạo key mã hóa, giải mã
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");//Tạo đối tượng cripher các thông tin(thuật toán mã hóa/ Mode/ passding
+       
+        // Giải mã dữ liệu base64 trước khi tiến hành giải mã
+        byte[] byteEncrypted = Base64.getDecoder().decode(chuoiDaMaHoa);
+         //Giải mã
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
+        return new String(byteDecrypted);
     }
 }
