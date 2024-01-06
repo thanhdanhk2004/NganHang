@@ -32,21 +32,24 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     private String gioiTinh;
     private String soCCCD;
     private LocalDate ngaySinh;
-    private double soTienGui = 2000000;
+    private double soTienGui;
     private int matKhau;
     private LocalDate ngayDangKy = LocalDate.now();
-    private String soTaiKhoan;
+    private String soTaiKhoan = "";
     private List<TaiKhoanCoKyHan> quanDanhSachTaiKhoanCoKyHan = new ArrayList();
     private boolean trangThai;
     private static double laiSuatKhongKyHan = 0.002;
 
-    public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau) {
+    public TaiKhoanKhongKyHan(String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau, double soTien) {
         this.hoTen = hoTen;
         this.queQuan = queQuan;
         this.gioiTinh = gioiTinh;
         this.soCCCD = soCCCD;
         this.ngaySinh = ngaySinh;
         this.matKhau = matKhau;
+        this.trangThai = true;
+        this.soTienGui = soTien;
+        this.soTaiKhoan = String.format("%s%04d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), TaiKhoanKhongKyHan.dem++);
         this.trangThai = true;
     }
 
@@ -155,7 +158,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
      * @return the ngayDangKy
      */
     public LocalDate getNgayDangKy() {
-        return LocalDate.now();
+        return this.ngayDangKy;
     }
 
     /**
@@ -243,18 +246,17 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
             }
         } while (choice != 1 && choice != 2 && choice != 3);
         this.matKhau = (int) (Math.random() * (999999 - 100000 + 1) + 100000);
-        this.soTaiKhoan = String.format("%s%04d", this.ngaySinh.format(DateTimeFormatter.ofPattern("ddMMyyyy")), TaiKhoanKhongKyHan.dem++);
-        this.trangThai = true;
-        return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau);
+        this.soTienGui = CauHinh.nhapSoTien();
+        return new TaiKhoanKhongKyHan(this.hoTen, this.queQuan, this.gioiTinh, this.soCCCD, this.ngaySinh, this.matKhau, this.soTienGui);
     }
 
     @Override
     public void hienThi() {
         System.err.println("\n");
-        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %f\n",
+        System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %.3f\n",
                 this.hoTen, this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.gioiTinh, this.queQuan,
                 this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.soTaiKhoan, this.soTienGui);
-        if (this.trangThai == true) {
+        if (this.isTrangThai() == true) {
             System.out.print("+ Trạng thái: Không bị khóa.\n");
         } else {
             System.out.print("+ Trạng thái: Bị khóa.\n");
@@ -282,12 +284,12 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         try {
             fileWriter = new FileWriter(CauHinh.DATA_FILE, true);
             try (PrintWriter xuatFile = new PrintWriter(fileWriter)) {
-                int matKhauMaHoa = Integer.parseInt(CauHinh.maHoaMatKhau(Integer.toString(this.getMatKhau())));
-                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoản không kỳ hạn, %s, %s, %d, %.3f,", this.hoTen, this.soCCCD,
+                String matKhauMaHoa = CauHinh.maHoaMatKhau(Integer.toString(this.getMatKhau()));
+                xuatFile.printf("%s, %s, %s, %s, %s, Tài khoản không kỳ hạn, %s, %s, %s, %.3f,", this.hoTen, this.soCCCD,
                         this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.queQuan, this.gioiTinh, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                         this.soTaiKhoan, matKhauMaHoa, this.soTienGui);
-                if (this.trangThai == true) {
+                if (this.isTrangThai() == true) {
                     xuatFile.printf("true");
                 } else {
                     xuatFile.printf("false");
@@ -317,25 +319,31 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
                 case 1 -> {
                     System.out.println("+ SỬA HỌ TÊN:");
                     this.hoTen = CauHinh.nhapHoTen();
+                    break;
                 }
                 case 2 -> {
                     System.out.print("+ SỬA NGÀY THÁNG NĂM SINH:");
                     this.ngaySinh = CauHinh.nhapNgayThangNamSinh();
+                    break;
                 }
                 case 3 -> {
                     System.out.print("+ SỬA QUÊ QUÁN:");
                     this.hoTen = CauHinh.nhapQueQuan();
+                    break;
                 }
                 case 4 -> {
                     System.out.print("+ SỬA GIỚI TÍNH:");
                     this.gioiTinh = CauHinh.nhapGioiTinh();
+                    break;
                 }
                 case 5 -> {
                     System.out.print("+ SỬA SỐ CĂN CƯỚC CÔNG DÂN:");
                     this.soCCCD = CauHinh.nhapSoCCCD();
+                    break;
                 }
                 case 6 -> {
                     System.out.print("+ Thông tin của bạn đã được lưu.\n");
+                    break;
                 }
                 default -> {
                     System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
@@ -347,7 +355,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
 
     @Override
     public void goiTien(double soTien) {
-       
+
         this.soTienGui += soTien;
         System.out.printf("Bạn đã gửi %f đồng và tài khoản!\n", soTien);
     }
@@ -364,7 +372,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     @Override
     public double tinhTienLai() {
         int soNgayGui = (int) ChronoUnit.DAYS.between(this.ngayDangKy, LocalDate.now());
-        return (this.soTienGui * TaiKhoanKhongKyHan.laiSuatKhongKyHan * soNgayGui)*1.0 / 360;
+        return (this.soTienGui * TaiKhoanKhongKyHan.laiSuatKhongKyHan * soNgayGui) * 1.0 / 360;
     }
 
     public void rutTienTaiKhoanCoKyHan() {
@@ -384,16 +392,16 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
                 ch = 0;
             }
             if (ch >= 1 && ch <= this.quanDanhSachTaiKhoanCoKyHan.size()) {
-                if(this.quanDanhSachTaiKhoanCoKyHan.get(ch).xacNhanRutTien()) {
-                    TaiKhoanCoKyHan tkckh = this.quanDanhSachTaiKhoanCoKyHan.get(ch);
-                    this.soTienGui += (tkckh.getSoTienGui() * TaiKhoanKhongKyHan.laiSuatKhongKyHan * (int) ChronoUnit.DAYS.between(tkckh.getNgayTao(), LocalDate.now()) / 360);
-                    this.quanDanhSachTaiKhoanCoKyHan.remove(ch);
+                if (this.quanDanhSachTaiKhoanCoKyHan.get(ch - 1).xacNhanRutTien()) {
+                    TaiKhoanCoKyHan tkckh = this.quanDanhSachTaiKhoanCoKyHan.get(ch - 1);
+                    this.soTienGui += ((ChronoUnit.DAYS.between(tkckh.getNgayDangKy(), LocalDate.now()) * tkckh.getSoTienGui() * (TaiKhoanKhongKyHan.laiSuatKhongKyHan)) * 1.0 / 365) + tkckh.getSoTienGui();
+                    this.quanDanhSachTaiKhoanCoKyHan.remove(ch - 1);
                 }
             } else {
                 System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!(ch >= 1 && ch <= this.quanDanhSachTaiKhoanCoKyHan.size()));
+        } while ((ch < 1 || ch > this.quanDanhSachTaiKhoanCoKyHan.size() + 1));
     }
 
 }

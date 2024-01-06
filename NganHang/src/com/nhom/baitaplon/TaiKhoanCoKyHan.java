@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +24,6 @@ import javax.crypto.NoSuchPaddingException;
 public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     private KyHan thongTinKyHan;
-    
-    private LocalDate ngayTao = LocalDate.now();
 
     public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
@@ -139,13 +136,6 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             }
         } while (choice != 1 && choice != 2);
         return false;
-    }
-
-    /**
-     * @return the ngayTao
-     */
-    public LocalDate getNgayTao() {
-        return ngayTao;
     }
 
 }

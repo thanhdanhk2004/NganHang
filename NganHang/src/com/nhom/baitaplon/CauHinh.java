@@ -25,7 +25,7 @@ public class CauHinh {
 
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
-    public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+    public static File DATA_FILE = new File("C:\\Users\\Le Quang Minh\\OneDrive\\Documents\\GitHub\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
     public static void ganKyHan(){
         KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(), new KyHanMotThang(), new KyHanSauThang(), new KyHanMotNam()));
     }
@@ -45,11 +45,11 @@ public class CauHinh {
         do {
             System.out.print("+ Nhập họ tên: ");
             ten = CauHinh.SC.nextLine().toUpperCase();
-            if (!ten.matches("[A-Za-z]+")) {
+            if (!ten.matches("[A-Za-z\\s]+")) {
                 System.out.println("\nTên chỉ có thể chứa chữ cái! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!ten.matches("[A-Za-z]+"));
+        } while (!ten.matches("[A-Za-z\\s]+"));
         return ten;
     }
 
@@ -145,7 +145,7 @@ public class CauHinh {
         do {
             System.out.print("+ Nhập số tiền: ");
             soTien = CauHinh.SC.nextLine();
-            if (!soTien.matches("[0-9]+(\\.|\\d)[0-9]+") || soTien.length() >= 9) {
+            if ((!soTien.matches("[0-9]+") && !soTien.matches("[0-9]+(\\.)[0-9]+")) || soTien.length() >= 9) {
                 System.out.println("\nSố tiền không hợp lệ! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
@@ -156,25 +156,8 @@ public class CauHinh {
                     CauHinh.SC.nextLine();
                 }
             }
-        } while (!soTien.matches("[0-9]+\\.[0-9]+") || st <= 0 || st > 1000000000);
+        } while (!soTien.matches("[0-9]+") && !soTien.matches("[0-9]+\\.[0-9]+") || st <= 0 || st > 1000000000);
         return st;
-    }
-    public static String EncryptAndDecrypt(String matKhau, boolean flag) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        String SECRET_KEY = "HelloEveryoneIam";// 128, 192, 256 bit
-        SecretKeySpec skeySpec = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");// Tạo key mã hóa, giải mã
-        String original = matKhau;// Chuỗi gốc 
-        // Mã hóa
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");//Tạo đối tượng cripher các thông tin(thuật toán mã hóa/ Mode/ passding
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] byteEncrypted = cipher.doFinal(original.getBytes());
-        String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
-        if(flag == flag)
-            return encrypted;
-        //Giải mã
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
-        String decrypted = new String(byteDecrypted);
-        return decrypted;
     }
     public static String maHoaMatKhau(String matKhau) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
         String khoaBiMat = "toitenlathanhdan";

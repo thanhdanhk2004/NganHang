@@ -54,7 +54,7 @@ public class QuanLyTaiKhoan {
         return null;
     }
 
-    public void moTaiKhoan(){
+    public void moTaiKhoan() {
         String soCCCD = CauHinh.nhapSoCCCD();
         if (this.timKiem(soCCCD) != null) {
             System.out.print("+ Tài khoản đã tồn tại!\n");
@@ -87,15 +87,13 @@ public class QuanLyTaiKhoan {
         tkckh.setGioiTinh(tkkkh.getGioiTinh());
         tkckh.setQueQuan(tkkkh.getQueQuan());
         tkckh.setSoTaiKhoan(tkkkh.getSoTaiKhoan());
-        tkckh.setNgayDangKy(LocalDate.now());
         tkckh.setNgaySinh(tkkkh.getNgaySinh());
-        tkckh.setSoTienGui(0);
         tkckh.setMatKhau(tkkkh.getMatKhau());
         return tkckh;
     }
 
-    public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh){
-        
+    public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh) {
+
         Double soTienGui = CauHinh.nhapSoTien();
         if (tkkkh.getSoTienGui() < 150000 || soTienGui < 100000) {
             System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ ===\n");
@@ -105,7 +103,7 @@ public class QuanLyTaiKhoan {
             tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh);
             tkckh.setSoTienGui(soTienGui);
             tkckh.moTaiKhoan();
-           
+
             this.hienThiThongTinTaiKhoanKhachHang(tkckh);
             tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
             System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
@@ -248,6 +246,9 @@ public class QuanLyTaiKhoan {
             if (tkkkh == null) {
                 System.out.print("* Sai số tài khoản! Enter để kiểm tra lại.\n");
                 CauHinh.SC.nextLine();
+            } else if (tkkkh.isTrangThai() == false) {
+                System.out.println("* Tài khoản của bạn đã bị khóa! Vui lòng liên hệ với ngân hàng gần bạn nhất.");
+                return null;
             } else {
                 System.out.println("Xin chào " + tkkkh.getHoTen());
             }
@@ -269,20 +270,23 @@ public class QuanLyTaiKhoan {
             return tkkkh;
         }
     }
-    public String layClassPath(String s){
-        for(int i=0;i<KyHan.getArrLKH().size();i++){
-            if(KyHan.getArrLKH().get(i).getTen().equalsIgnoreCase(s))
+
+    public String layClassPath(String s) {
+        for (int i = 0; i < KyHan.getArrLKH().size(); i++) {
+            if (KyHan.getArrLKH().get(i).getTen().equalsIgnoreCase(s)) {
                 return KyHan.getArrLKH().get(i).toString();
+            }
         }
         return "";
     }
+
     public void docDuLieuKhachHang() throws FileNotFoundException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         try (Scanner file = new Scanner(CauHinh.DATA_FILE)) {
             String s;
             int dem = 0;
             while (file.hasNext()) {
                 s = file.nextLine();
-                
+
                 if (s.equals("")) {
                     break;
                 } else {
@@ -291,6 +295,7 @@ public class QuanLyTaiKhoan {
                         TaiKhoanKhongKyHan tkkkh2 = (TaiKhoanKhongKyHan) this.timKiem(str[1].trim());
                         TaiKhoanCoKyHan tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh2);
                         tkckh.setSoTienGui(Double.parseDouble(str[9].trim()));
+                        tkckh.setNgayDangKy(LocalDate.parse(str[6].trim(), DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
                         String s1 = layClassPath(str[11].trim());
                         String classPath = "com.nhom.baitaplon." + s1;
                         Class c = Class.forName(classPath);
@@ -321,11 +326,11 @@ public class QuanLyTaiKhoan {
             file.close();
         }
     }
-    
-    public void ghiFileSauKhiXuLy() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+
+    public void ghiFileSauKhiXuLy() throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         PrintWriter printWriter = new PrintWriter(CauHinh.DATA_FILE);
-        for(TaiKhoan i:this.quanLyTaiKhoan){
-            if(i instanceof TaiKhoanKhongKyHan x){
+        for (TaiKhoan i : this.quanLyTaiKhoan) {
+            if (i instanceof TaiKhoanKhongKyHan x) {
                 String matKhauMaHoa = CauHinh.maHoaMatKhau(Integer.toString(x.getMatKhau()));
                 printWriter.printf("%s, %s, %s, %s, %s, Tài khoản không kỳ hạn, %s, %s, %s, %.3f,", x.getHoTen(), x.getSoCCCD(),
                         x.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
@@ -336,7 +341,7 @@ public class QuanLyTaiKhoan {
                 } else {
                     printWriter.printf("false\n");
                 }
-                for(TaiKhoanCoKyHan j:x.getQuanDanhSachTaiKhoanCoKyHan()){
+                for (TaiKhoanCoKyHan j : x.getQuanDanhSachTaiKhoanCoKyHan()) {
                     String matKhauMaHoa2 = CauHinh.maHoaMatKhau(Integer.toString(j.getMatKhau()));
                     printWriter.printf("%s, %s, %s, %s, %s, Tài khoản có kỳ hạn, %s, %s, %s, %.3f,", x.getHoTen(), x.getSoCCCD(),
                             x.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
