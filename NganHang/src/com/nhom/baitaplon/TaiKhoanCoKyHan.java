@@ -26,6 +26,13 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     private KyHan thongTinKyHan;
     private LocalDate ngayDaoHan;
+
+    public TaiKhoanCoKyHan(KyHan thongTinKyHan, LocalDate ngayDaoHan, String hoTen, String queQuan, String gioiTinh, String soCCCD, LocalDate ngaySinh, int matKhau, double soTien) {
+        super(hoTen, queQuan, gioiTinh, soCCCD, ngaySinh, matKhau, soTien);
+        this.thongTinKyHan = thongTinKyHan;
+        this.ngayDaoHan = ngayDaoHan;
+    }
+    
     public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
     }
@@ -77,7 +84,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             } while (!(choice >= 1 && choice <= KyHan.getArrLKH().size()));
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException ex) {
             Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }   
         return null;
     }
 
