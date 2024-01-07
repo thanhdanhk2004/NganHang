@@ -93,7 +93,6 @@ public class QuanLyTaiKhoan {
     }
 
     public void moTaiKhoanCoKyHan(TaiKhoanKhongKyHan tkkkh) {
-
         Double soTienGui = CauHinh.nhapSoTien();
         if (tkkkh.getSoTienGui() < 150000 || soTienGui < 100000) {
             System.out.print("=== BẠN KHÔNG ĐỦ SỐ DƯ ĐỂ MỞ ===\n");
@@ -102,8 +101,8 @@ public class QuanLyTaiKhoan {
             TaiKhoanCoKyHan tkckh = new TaiKhoanCoKyHan();
             tkckh = this.layDuLieuTuTaiKhoanKhongKyHan(tkkkh);
             tkckh.setSoTienGui(soTienGui);
+            tkckh.setNgayDangKy(LocalDate.now());
             tkckh.moTaiKhoan();
-
             this.hienThiThongTinTaiKhoanKhachHang(tkckh);
             tkkkh.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
             System.out.print("=== MỞ TÀI KHOẢN THÀNH CÔNG ===\n");
@@ -301,6 +300,7 @@ public class QuanLyTaiKhoan {
                         Class c = Class.forName(classPath);
                         KyHan kyHan = (KyHan) c.getConstructor().newInstance();
                         tkckh.setThongTinKyHan(kyHan);
+                        tkckh.setNgayDaoHan(tkckh.getThongTinKyHan().tinhNgayDaoHan(tkckh.getNgayDangKy()));
                         tkkkh2.getQuanDanhSachTaiKhoanCoKyHan().add(tkckh);
                     } else {
                         TaiKhoanKhongKyHan tkkkh = new TaiKhoanKhongKyHan();
@@ -345,7 +345,7 @@ public class QuanLyTaiKhoan {
                     String matKhauMaHoa2 = CauHinh.maHoaMatKhau(Integer.toString(j.getMatKhau()));
                     printWriter.printf("%s, %s, %s, %s, %s, Tài khoản có kỳ hạn, %s, %s, %s, %.3f,", x.getHoTen(), x.getSoCCCD(),
                             x.getNgaySinh().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
-                            x.getQueQuan(), x.getGioiTinh(), x.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
+                            x.getQueQuan(), x.getGioiTinh(), j.getNgayDangKy().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)),
                             x.getSoTaiKhoan(), matKhauMaHoa2, j.getSoTienGui());
                     if (j.isTrangThai() == true) {
                         printWriter.printf("true");

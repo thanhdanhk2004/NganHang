@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ import javax.crypto.NoSuchPaddingException;
 public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     private KyHan thongTinKyHan;
-
+    private LocalDate ngayDaoHan;
     public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
     }
@@ -67,6 +68,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
                     Class c = Class.forName(classPath);
                     KyHan kyHan = (KyHan) c.getConstructor().newInstance();
                     this.thongTinKyHan = kyHan;
+                    this.ngayDaoHan = this.thongTinKyHan.tinhNgayDaoHan(this.getNgayDangKy());
                     return new TaiKhoanCoKyHan(kyHan);
                 } else {
                     System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");
@@ -81,7 +83,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
 
     @Override
     public void hienThi() {
-        System.out.printf("+ Số tiền gửi: %.3f\n+ Tiền lãi khi đáo hạn: %.3f\n+ Ngày đáo hạn: %s\n", this.getSoTienGui(), this.thongTinKyHan.tinhTienLai(this.getSoTienGui()), this.getThongTinKyHan().tinhNgayDaoHan(this.getNgayDangKy()).format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
+        System.out.printf("+ Số tiền gửi: %.3f\n+ Tiền lãi khi đáo hạn: %.3f\n+ Ngày đáo hạn: %s\n", this.getSoTienGui(), this.thongTinKyHan.tinhTienLai(this.getSoTienGui()), this.getNgayDaoHan().format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)));
         getThongTinKyHan().hienThiThongTinKyHan();
         System.out.println("");
     }
@@ -136,6 +138,20 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             }
         } while (choice != 1 && choice != 2);
         return false;
+    }
+
+    /**
+     * @return the ngayDaoHan
+     */
+    public LocalDate getNgayDaoHan() {
+        return ngayDaoHan;
+    }
+
+    /**
+     * @param ngayDaoHan the ngayDaoHan to set
+     */
+    public void setNgayDaoHan(LocalDate ngayDaoHan) {
+        this.ngayDaoHan = ngayDaoHan;
     }
 
 }

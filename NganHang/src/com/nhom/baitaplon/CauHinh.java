@@ -25,7 +25,7 @@ public class CauHinh {
 
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
-    public static File DATA_FILE = new File("C:\\Users\\Le Quang Minh\\OneDrive\\Documents\\GitHub\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+    public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
     public static void ganKyHan(){
         KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(), new KyHanMotThang(), new KyHanSauThang(), new KyHanMotNam()));
     }
