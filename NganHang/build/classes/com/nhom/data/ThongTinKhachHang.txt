@@ -12,3 +12,4 @@ HỒ MINH NGUYÊN, 014752310254, 12/01/2005, Nghệ An, Nam, Tài khoản có k�
 TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản không kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 3500000.000,true
 TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản có kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 700000.000,false, Kỳ hạn một tháng
 TRẦN THANH MINH, 012475628945, 23/01/2002, Hà Tĩnh, Nam, Tài khoản có kỳ hạn, 05/01/2024, 230120021245, js2UpWBJZaYS1KKDDs2Vuw==, 700000.000,false, Kỳ hạn một tuần
+LE THANH, 1, 07/07/2004, Binh Phuoc, Nam, Tài khoản không kỳ hạn, 08/01/2024, 070720040000, BDbyasc9YNpJU8xw8jGkaQ==, 500000.000,true

@@ -25,6 +25,7 @@ public class KyHanMotNam extends KyHan {
     /**
      * @return the ten
      */
+    @Override
     public String getTen() {
         return ten;
     }
