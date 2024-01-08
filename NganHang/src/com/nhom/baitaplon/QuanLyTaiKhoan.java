@@ -5,7 +5,6 @@
 package com.nhom.baitaplon;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -65,6 +64,7 @@ public class QuanLyTaiKhoan {
             this.quanLyTaiKhoan.add(tkkkh);
             System.out.print("+ Mở tài khoản thành công.\n");
             this.hienThiThongTinTaiKhoanKhachHang(tkkkh);
+            System.out.printf("\n+ Mật khẩu: %d", tkkkh.getMatKhau());
             this.xacNhanDoiMatKhau(tkkkh);
             tkkkh.suaThongTin();
             tkkkh.ghiThongTinVaoFile();
@@ -207,7 +207,7 @@ public class QuanLyTaiKhoan {
             if (tkkkh.getSoTaiKhoan().equals(s)) {
                 tkkkh.hienThi();
                 if (!tkkkh.getQuanDanhSachTaiKhoanCoKyHan().isEmpty()) {
-                    System.out.print("* Tài khoản của khách hàng " + tkkkh.getHoTen() + " có thêm " + tkkkh.getQuanDanhSachTaiKhoanCoKyHan().size() + " tài khoản có kỳ hạn.\n");
+                    System.out.print("\n\n* Tài khoản của khách hàng " + tkkkh.getHoTen() + " có thêm " + tkkkh.getQuanDanhSachTaiKhoanCoKyHan().size() + " tài khoản có kỳ hạn.\n");
                     for (TaiKhoanCoKyHan j : tkkkh.getQuanDanhSachTaiKhoanCoKyHan()) {
                         j.hienThi();
                     }
@@ -221,7 +221,7 @@ public class QuanLyTaiKhoan {
         List<TaiKhoan> danhSachTaiKhoan = new ArrayList();
         for (TaiKhoan i : this.quanLyTaiKhoan) {
             if (i instanceof TaiKhoanKhongKyHan x) {
-                if (x.getSoTaiKhoan().equalsIgnoreCase(s) || x.getHoTen().contains(s)) {
+                if (x.getSoTaiKhoan().equalsIgnoreCase(s) || x.getHoTen().contains(s) || x.getHoTen().equalsIgnoreCase(s)) {
                     danhSachTaiKhoan.add(i);
                 }
             }

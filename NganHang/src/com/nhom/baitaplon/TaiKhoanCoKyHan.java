@@ -32,7 +32,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
         this.thongTinKyHan = thongTinKyHan;
         this.ngayDaoHan = ngayDaoHan;
     }
-    
+
     public TaiKhoanCoKyHan(KyHan thongTinKyHan) {
         this.thongTinKyHan = thongTinKyHan;
     }
@@ -40,7 +40,6 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
     public TaiKhoanCoKyHan() {
     }
 
-    
     public KyHan getThongTinKyHan() {
         return thongTinKyHan;
     }
@@ -84,7 +83,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
             } while (!(choice >= 1 && choice <= KyHan.getArrLKH().size()));
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException ex) {
             Logger.getLogger(TaiKhoanCoKyHan.class.getName()).log(Level.SEVERE, null, ex);
-        }   
+        }
         return null;
     }
 

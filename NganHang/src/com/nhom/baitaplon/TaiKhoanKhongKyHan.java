@@ -25,7 +25,7 @@ import javax.crypto.NoSuchPaddingException;
  * @author add
  */
 public class TaiKhoanKhongKyHan implements TaiKhoan {
-    
+
     private static int dem = 0;
     private String hoTen;
     private String queQuan;
@@ -221,11 +221,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
     public TaiKhoanKhongKyHan moTaiKhoan() {
         System.out.print("=== THÔNG TIN CÁ NHÂN ===\n");
         this.hoTen = CauHinh.nhapHoTen();
-        System.out.print("+ Nhập ngày tháng năm sinh (dd/mm/yyyy):");
-        String ns = CauHinh.SC.nextLine();
-        this.ngaySinh = LocalDate.parse(ns, DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT));
-        System.out.print("+ Nhập vào quê quán: ");
-        this.queQuan = CauHinh.SC.nextLine();
+        this.ngaySinh = CauHinh.nhapNgayThangNamSinh();
+        this.queQuan = CauHinh.nhapQueQuan();
         int choice;
         do {
             choice = CauHinh.menu("1) Nam.\n2) Nữ.\n3) Giới tính khác.\n- Nhập lựa chọn của bạn:");
@@ -252,7 +249,7 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
 
     @Override
     public void hienThi() {
-        System.err.println("\n");
+        System.out.println("\n\n");
         System.out.printf("+ Họ tên: %s\n+ Ngày sinh: %s\n+ Giới tính: %s\n+ Quê quán: %s\n+ Số CCCD: %s\n+ Ngày đăng ký: %s\n+ Số tài khoản: %s\n+ Số tiền: %.3f\n",
                 this.hoTen, this.ngaySinh.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.gioiTinh, this.queQuan,
                 this.soCCCD, this.ngayDangKy.format(DateTimeFormatter.ofPattern(CauHinh.DATE_FORMAT)), this.soTaiKhoan, this.soTienGui);
@@ -268,8 +265,8 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
         int s1, s2;
         s1 = CauHinh.nhapMatKhau();
         do {
-            System.out.print("* Nhập lại mật khẩu mới(Sáu số):");
-            s2 = Integer.parseInt(CauHinh.SC.nextLine());
+            System.out.println("Xác nhận mật khẩu:");
+            s2 = CauHinh.nhapMatKhau();
             if (s1 != s2) {
                 System.out.print("+ Không trùng khớp! Mời nhâp lại.\n");
             }

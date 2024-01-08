@@ -49,7 +49,7 @@ public class NganHang {
             choice = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
                     + "1) Khách hàng.\n"
                     + "2) Nhân viên ngân hàng.\n"
-                    + "3) Thoát\n"
+                    + "3) Thoát chương trình.\n"
                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                     + ">>Bạn chọn: ");
             switch (choice) {
@@ -58,7 +58,7 @@ public class NganHang {
                     do {
                         choice1 = CauHinh.menu("============== MENU LỰA CHỌN ================\n"
                                 + "1) Đăng nhập.\n"
-                                + "2) Thoát chương trình.\n"
+                                + "2) Thoát.\n"
                                 + "======== MỜI BẠN LỰA CHỌN =========\n"
                                 + ">>Bạn chọn: ");
                         switch (choice1) {
@@ -140,7 +140,6 @@ public class NganHang {
                                 break;
                             }
                             case 2 -> {
-                                System.out.println("\nCảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!");
                                 khoangTrang();
                                 break;
                             }
@@ -186,18 +185,17 @@ public class NganHang {
                                     qltk.traCuuDanhSachKhachHang(CauHinh.nhapSTK());
                                     break;
                                 }
-                                case 5 ->{
+                                case 5 -> {
                                     TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(CauHinh.nhapSTK());
-                                    if(tkkkh == null)
+                                    if (tkkkh == null) {
                                         System.out.print("=== KHÔNG TÌM THẤY SỐ TÀI KHOẢN NÀY VUI LÒNG KIỂM TRA LẠI ===\n");
-                                    else{
+                                    } else {
                                         qltk.traCuuDanhSachKhachHang(tkkkh.getSoTaiKhoan());
-                                        System.out.printf("- Tổng số tiền lãi nhận được là: %.3f\n",qltk.tinhTienLaiCuaKhachHang(tkkkh.getSoTaiKhoan()));
+                                        System.out.printf("- Tổng số tiền lãi nhận được là: %.3f\n", qltk.tinhTienLaiCuaKhachHang(tkkkh.getSoTaiKhoan()));
                                     }
                                     break;
                                 }
                                 case 6 -> {
-                                    System.out.println("\nCảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!");
                                     khoangTrang();
                                     break;
                                 }
@@ -215,6 +213,11 @@ public class NganHang {
                         khoangTrang();
                     }
 
+                }
+                case 3 -> {
+                    System.out.println("Cảm ơn đã sử dụng dịch vụ của chúng tôi!");
+                    khoangTrang();
+                    break;
                 }
                 default -> {
                     System.out.println("\nLựa chọn không hợp lệ! Nhấn Enter để nhập lại.\n");

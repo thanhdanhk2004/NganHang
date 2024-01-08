@@ -17,6 +17,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+
 /**
  *
  * @author add
@@ -25,10 +26,12 @@ public class CauHinh {
 
     public static Scanner SC = new Scanner(System.in);
     public static String DATE_FORMAT = "dd/MM/yyyy";
-    public static File DATA_FILE = new File("C:\\Users\\add\\Pictures\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
-    public static void ganKyHan(){
+    public static File DATA_FILE = new File("C:\\Users\\Le Quang Minh\\OneDrive\\Documents\\GitHub\\NganHang\\NganHang\\src\\com\\nhom\\data\\ThongTinKhachHang.txt");
+
+    public static void ganKyHan() {
         KyHan.getArrLKH().addAll(Arrays.asList(new KyHanMotTuan(), new KyHanMotThang(), new KyHanSauThang(), new KyHanMotNam()));
     }
+
     public static int menu(String prom) {
         System.out.print(prom);
         String choice = CauHinh.SC.nextLine();
@@ -84,11 +87,11 @@ public class CauHinh {
         do {
             System.out.print("+ Nhập vào quê quán: ");
             qq = CauHinh.SC.nextLine();
-            if (!qq.matches("[A-Za-z]+")) {
+            if (!qq.matches("[A-Za-z\\s]+")) {
                 System.out.println("\nQuê quán chỉ bao gồm chữ cái! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
             }
-        } while (!qq.matches("[A-Za-z]+"));
+        } while (!qq.matches("[A-Za-z\\s]+"));
         return qq;
     }
 
@@ -139,6 +142,7 @@ public class CauHinh {
         } while (!stk.matches("[0-9]+") || stk.length() != 12);
         return stk;
     }
+
     public static double nhapSoTien() {
         String soTien;
         double st = 0;
@@ -148,8 +152,7 @@ public class CauHinh {
             if ((!soTien.matches("[0-9]+") && !soTien.matches("[0-9]+(\\.)[0-9]+")) || soTien.length() >= 9) {
                 System.out.println("\nSố tiền không hợp lệ! Nhấn Enter để nhập lại.\n");
                 CauHinh.SC.nextLine();
-            }
-            else {
+            } else {
                 st = Double.parseDouble(soTien);
                 if (st <= 0 || st > 1000000000) {
                     System.out.println("\nHạn mức chuyển tiền là 1 tỷ! Nhấn Enter để nhập lại.\n");
@@ -159,7 +162,8 @@ public class CauHinh {
         } while (!soTien.matches("[0-9]+") && !soTien.matches("[0-9]+\\.[0-9]+") || st <= 0 || st > 1000000000);
         return st;
     }
-    public static String maHoaMatKhau(String matKhau) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+
+    public static String maHoaMatKhau(String matKhau) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String khoaBiMat = "toitenlathanhdan";
         SecretKeySpec skeySpec = new SecretKeySpec(khoaBiMat.getBytes(), "AES");
         String original = matKhau;// Chuỗi gốc 
@@ -168,14 +172,15 @@ public class CauHinh {
         byte[] byteEncrypted = cipher.doFinal(original.getBytes());
         return Base64.getEncoder().encodeToString(byteEncrypted);
     }
-    public static String giaiMaMatKhau(String chuoiDaMaHoa) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
+
+    public static String giaiMaMatKhau(String chuoiDaMaHoa) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String khoaBiMat = "toitenlathanhdan";// 128, 192, 256 bit
         SecretKeySpec skeySpec = new SecretKeySpec(khoaBiMat.getBytes(), "AES");// Tạo key mã hóa, giải mã
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");//Tạo đối tượng cripher các thông tin(thuật toán mã hóa/ Mode/ passding
-       
+
         // Giải mã dữ liệu base64 trước khi tiến hành giải mã
         byte[] byteEncrypted = Base64.getDecoder().decode(chuoiDaMaHoa);
-         //Giải mã
+        //Giải mã
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
         return new String(byteDecrypted);
