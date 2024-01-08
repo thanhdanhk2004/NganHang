@@ -71,7 +71,7 @@ public class TaiKhoanCoKyHan extends TaiKhoanKhongKyHan {
                     choice = 0;
                 }
                 if (choice >= 1 && choice <= KyHan.getArrLKH().size()) {
-                    String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).toString();
+                    String classPath = "com.nhom.baitaplon." + KyHan.getArrLKH().get(choice - 1).getDoiTuong();
                     Class c = Class.forName(classPath);
                     KyHan kyHan = (KyHan) c.getConstructor().newInstance();
                     this.thongTinKyHan = kyHan;

@@ -71,7 +71,6 @@ public abstract class KyHan {
 
     public abstract String getTen();
 
-    @Override
-    public abstract String toString();
+    public abstract String getDoiTuong();
 
 }

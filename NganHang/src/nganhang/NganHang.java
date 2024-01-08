@@ -161,7 +161,8 @@ public class NganHang {
                                     + "2) Tra cứu khách hàng.\n"
                                     + "3) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
                                     + "4) Tra cứu danh sách tài khoản có kỳ hạn và không kỳ hạn khách hàng.\n"
-                                    + "5) Thoát\n"
+                                    + "5) Xem tiền lãi khách hàng nhận được dựa vào số tài khoảng được cung cấp.\n"
+                                    + "6) Thoát\n"
                                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                                     + ">>Bạn chọn: ");
                             switch (choice4) {
@@ -185,7 +186,17 @@ public class NganHang {
                                     qltk.traCuuDanhSachKhachHang(CauHinh.nhapSTK());
                                     break;
                                 }
-                                case 5 -> {
+                                case 5 ->{
+                                    TaiKhoanKhongKyHan tkkkh = (TaiKhoanKhongKyHan) qltk.timKiem(CauHinh.nhapSTK());
+                                    if(tkkkh == null)
+                                        System.out.print("=== KHÔNG TÌM THẤY SỐ TÀI KHOẢN NÀY VUI LÒNG KIỂM TRA LẠI ===\n");
+                                    else{
+                                        qltk.traCuuDanhSachKhachHang(tkkkh.getSoTaiKhoan());
+                                        System.out.printf("- Tổng số tiền lãi nhận được là: %.3f\n",qltk.tinhTienLaiCuaKhachHang(tkkkh.getSoTaiKhoan()));
+                                    }
+                                    break;
+                                }
+                                case 6 -> {
                                     System.out.println("\nCảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!");
                                     khoangTrang();
                                     break;
@@ -197,7 +208,7 @@ public class NganHang {
                                 }
                             }
 
-                        } while (choice4 != 5);
+                        } while (choice4 != 6);
                     } else {
                         System.out.println("\nMật khẩu của nhân viên ngân hàng không chính xác.\n");
                         CauHinh.SC.nextLine();

@@ -50,7 +50,7 @@ public class KyHanMotNam extends KyHan {
     }
 
     @Override
-    public String toString() {
+    public String getDoiTuong() {
         return "KyHanMotNam";
     }
 

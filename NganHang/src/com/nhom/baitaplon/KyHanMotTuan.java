@@ -48,7 +48,7 @@ public class KyHanMotTuan extends KyHan {
     }
 
     @Override
-    public String toString() {
+    public String getDoiTuong() {
         return "KyHanMotTuan";
     }
 

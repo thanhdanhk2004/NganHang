@@ -273,7 +273,7 @@ public class QuanLyTaiKhoan {
     public String layClassPath(String s) {
         for (int i = 0; i < KyHan.getArrLKH().size(); i++) {
             if (KyHan.getArrLKH().get(i).getTen().equalsIgnoreCase(s)) {
-                return KyHan.getArrLKH().get(i).toString();
+                return KyHan.getArrLKH().get(i).getDoiTuong();
             }
         }
         return "";

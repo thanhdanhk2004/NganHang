@@ -355,7 +355,6 @@ public class TaiKhoanKhongKyHan implements TaiKhoan {
 
     @Override
     public void goiTien(double soTien) {
-
         this.soTienGui += soTien;
         System.out.printf("Bạn đã gửi %f đồng và tài khoản!\n", soTien);
     }
