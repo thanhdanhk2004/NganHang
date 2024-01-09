@@ -160,7 +160,7 @@ public class NganHang {
                                     + "2) Tra cứu khách hàng.\n"
                                     + "3) Xem danh sách khách hàng có tổng số tiền gửi giảm dần.\n"
                                     + "4) Tra cứu danh sách tài khoản có kỳ hạn và không kỳ hạn khách hàng.\n"
-                                    + "5) Xem tiền lãi khách hàng nhận được dựa vào số tài khoảng được cung cấp.\n"
+                                    + "5) Xem tiền lãi khách hàng nhận được dựa vào số tài khoản được cung cấp.\n"
                                     + "6) Thoát\n"
                                     + "======== MỜI BẠN LỰA CHỌN =========\n"
                                     + ">>Bạn chọn: ");
